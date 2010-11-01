@@ -10,7 +10,8 @@ using System.Drawing;
 
 namespace AppLimit.NetSparkle
 {
-    public delegate void UpdateCheckOperation(Object sender);
+    public delegate void LoopStartedOperation(Object sender);
+    public delegate void LoopFinishedOperation(Object sender, Boolean UpdateRequired);
     
     public class Sparkle : IDisposable
     {
@@ -26,8 +27,8 @@ namespace AppLimit.NetSparkle
 
         private NetSparkleMainWindows _DiagnosticWindow;
 
-        public event UpdateCheckOperation updateCheckStarted;
-        public event UpdateCheckOperation updateCheckFinished;
+        public event LoopStartedOperation checkLoopStarted;
+        public event LoopFinishedOperation checkLoopFinished;
       
         /// <summary>
         /// The constructore starts NetSparkle
@@ -38,7 +39,11 @@ namespace AppLimit.NetSparkle
         /// <param name="appcastUrl">URL for the app's appcast.</param>
         /// /// <param name="noInitialCheck">check during start up phase</param>
         public Sparkle(String appcastUrl)
-        {   
+            : this(appcastUrl, true)
+        { }
+
+        public Sparkle(String appcastUrl, Boolean doInitialCheck)
+        {
             // Start the helper thread as a background worker to 
             // get well ui interaction
             
@@ -66,7 +71,7 @@ namespace AppLimit.NetSparkle
             _performUpdateHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
             
             // start the work
-            _worker.RunWorkerAsync();
+            _worker.RunWorkerAsync(doInitialCheck);
         }
                
         /// <summary>
@@ -102,10 +107,26 @@ namespace AppLimit.NetSparkle
             // store the did run once feature
             Boolean goIntoLoop = true;
             Boolean checkTSP = true;
-         
+            Boolean doInitialCheck = (Boolean)e.Argument;
+
             // start our lifecycles
             do
             {
+                // set state
+                Boolean bUpdateRequired = false;
+
+                // notify
+                if (checkLoopStarted != null)
+                    checkLoopStarted(this);
+
+                // report status
+                if (doInitialCheck == false)
+                {
+                    ReportDiagnosticMessage("Initial check prohibited, going to wait");
+                    doInitialCheck = true;
+                    goto WaitSection;
+                }
+
                 // report status
                 ReportDiagnosticMessage("Starting update loop...");
 
@@ -136,11 +157,7 @@ namespace AppLimit.NetSparkle
 
                 // update the runonce feature
                 goIntoLoop = !config.DidRunOnce;
-                
-                // notify
-                if (updateCheckStarted != null)
-                    updateCheckStarted(this);
-
+                                
                 // report
                 ReportDiagnosticMessage("Downloading and checking appcast");
 
@@ -158,11 +175,7 @@ namespace AppLimit.NetSparkle
                 // set the last check time
                 ReportDiagnosticMessage("Touch the last check timestamp");
                 config.TouchCheckTime();
-
-                // notify
-                if (updateCheckFinished != null)
-                    updateCheckFinished(this);
-
+                
                 // check if the available update has to be skipped
                 if (latestVersion.Version.Equals(config.SkipThisVersion))
                 {
@@ -180,11 +193,18 @@ namespace AppLimit.NetSparkle
                     goto WaitSection;
                 }
 
+                // update state
+                bUpdateRequired = true;
+
                 // show the update windows     
                 ReportDiagnosticMessage("Update needed from version " + config.InstalledVersion + " to version " + latestVersion.Version);
                 _worker.ReportProgress(1, latestVersion);
 
             WaitSection:
+                // notify
+                if (checkLoopFinished != null)
+                    checkLoopFinished(this, bUpdateRequired);
+
                 // report wait statement
                 ReportDiagnosticMessage("Sleeping for an other 24 houres, exit event or force update check event");
 
