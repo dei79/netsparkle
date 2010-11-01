@@ -25,7 +25,8 @@ namespace AppLimit.NetSparkle
         public Boolean  CheckForUpdate      { get; private set; }
         public DateTime LastCheckTime       { get; private set; }
         public String   SkipThisVersion     { get; private set; }
-        public Boolean  DidRunOnce           { get; private set; }        
+        public Boolean  DidRunOnce           { get; private set; }
+        public Boolean ShowDiagnosticWindow { get; private set; }  
 
         /// <summary>
         /// The constructor reads out all configured values
@@ -125,12 +126,14 @@ namespace AppLimit.NetSparkle
                 String strLastCheckTime = key.GetValue("LastCheckTime", new DateTime(0).ToString()) as String;
                 String strSkipThisVersion = key.GetValue("SkipThisVersion", "") as String;
                 String strDidRunOnc = key.GetValue("DidRunOnce", "0") as String;
+                String strShowDiagnosticWindow = key.GetValue("ShowDiagnosticWindow", "False") as String;
 
                 // convert th right datatypes
                 CheckForUpdate = Convert.ToBoolean(strCheckForUpdate);
                 LastCheckTime = Convert.ToDateTime(strLastCheckTime);
                 SkipThisVersion = strSkipThisVersion;
                 DidRunOnce = Convert.ToBoolean(strDidRunOnc);
+                ShowDiagnosticWindow = Convert.ToBoolean(strShowDiagnosticWindow);
 
                 return true;
             }

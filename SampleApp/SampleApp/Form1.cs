@@ -21,7 +21,7 @@ namespace SampleApp
 
             label1.Text = Environment.CommandLine;
 
-            _sparkle = new Sparkle("http://dl.dropbox.com/u/5839527/BusinessBox/bb-versioninfo.xml");
+            _sparkle = new Sparkle("http://update.applimit.com/businessbox/versioninfo.xml");
         }
 
         private void button1_Click(object sender, EventArgs e)
