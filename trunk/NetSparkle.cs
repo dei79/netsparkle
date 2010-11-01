@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Threading;
 using System.Net;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace AppLimit.NetSparkle
 {
@@ -22,7 +23,9 @@ namespace AppLimit.NetSparkle
 
         private EventWaitHandle _exitHandle;
         private EventWaitHandle _performUpdateHandle;
-        
+
+        private NetSparkleMainWindows _DiagnosticWindow;
+
         public event UpdateCheckOperation updateCheckStarted;
         public event UpdateCheckOperation updateCheckFinished;
       
@@ -39,10 +42,18 @@ namespace AppLimit.NetSparkle
             // Start the helper thread as a background worker to 
             // get well ui interaction
             
+            // create the diagnotic window
+            _DiagnosticWindow = new NetSparkleMainWindows();
+
+            // show if needed
+            ShowDiagnosticWindowIfNeeded();
+
             // set the url
             _AppCastUrl = appcastUrl;
+            _DiagnosticWindow.Report("Using the following url: " + _AppCastUrl);
 
             // create and configure the worker
+            _DiagnosticWindow.Report("Starting background worker");
             _worker = new BackgroundWorker();            
             _worker.WorkerReportsProgress = true;
 
@@ -56,7 +67,7 @@ namespace AppLimit.NetSparkle
             
             // start the work
             _worker.RunWorkerAsync();
-        }        
+        }
                
         /// <summary>
         /// Cleans up after NetSparkle.
@@ -95,23 +106,33 @@ namespace AppLimit.NetSparkle
             // start our lifecycles
             do
             {
+                // report status
+                ReportDiagnosticMessage("Starting update loop...");
+
                 // read the config
+                ReportDiagnosticMessage("Reading config...");
                 NetSparkleConfiguration config;
                 config = new NetSparkleConfiguration();
 
                 // check if it's ok the recheck to software state
                 if (checkTSP)
-                {
+                {                    
                     TimeSpan csp = DateTime.Now - config.LastCheckTime;
                     if (csp < tsp)
+                    {
+                        ReportDiagnosticMessage("Update check performed within the last 24 houres!");
                         goto WaitSection;
+                    }
                 }
                 else
                     checkTSP = true;
 
                 // when sparkle will be deactivated wait an other cycle
                 if (config.CheckForUpdate == false)
-                    goto WaitSection; 
+                {
+                    ReportDiagnosticMessage("Check for updates disabled");
+                    goto WaitSection;
+                }
 
                 // update the runonce feature
                 goIntoLoop = !config.DidRunOnce;
@@ -120,15 +141,22 @@ namespace AppLimit.NetSparkle
                 if (updateCheckStarted != null)
                     updateCheckStarted(this);
 
+                // report
+                ReportDiagnosticMessage("Downloading and checking appcast");
+
                 // init the appcast
                 NetSparkleAppCast cast = new NetSparkleAppCast(_AppCastUrl, config);
 
                 // check if any updates are available
                 NetSparkleAppCastItem latestVersion = cast.GetLatestVersion();
                 if (latestVersion == null)
-                    goto WaitSection; 
+                {
+                    ReportDiagnosticMessage("No version information in app cast found");
+                    goto WaitSection;
+                }
 
                 // set the last check time
+                ReportDiagnosticMessage("Touch the last check timestamp");
                 config.TouchCheckTime();
 
                 // notify
@@ -137,16 +165,25 @@ namespace AppLimit.NetSparkle
 
                 // check if the available update has to be skipped
                 if (latestVersion.Version.Equals(config.SkipThisVersion))
-                    goto WaitSection; 
+                {
+                    ReportDiagnosticMessage("Latest update has to be skipped (user decided to skip version "+ config.SkipThisVersion +")");
+                    goto WaitSection;
+                }
 
-                // check if the version will be other then the installed version
+                // check if the version will be the same then the installed version
                 if (latestVersion.Version.Equals(config.InstalledVersion))
-                    goto WaitSection; 
+                {
+                    ReportDiagnosticMessage("Installed version is valid, no update needed (" + config.InstalledVersion + ")");
+                    goto WaitSection;
+                }
 
-                // show the update windows                
+                // show the update windows     
+                ReportDiagnosticMessage("Update needed to version " + latestVersion.Version);
                 _worker.ReportProgress(1, latestVersion);
 
             WaitSection:
+                // report wait statement
+                ReportDiagnosticMessage("Sleeping for an other 24 houres, exit event or force update check event");
 
                 // wait for
                 if (!goIntoLoop)
@@ -164,15 +201,22 @@ namespace AppLimit.NetSparkle
                     // wait for any
                     int i = WaitHandle.WaitAny(handles, tsp);
                     if (WaitHandle.WaitTimeout == i)
+                    {
+                        ReportDiagnosticMessage("24 houres are over");
                         continue;
+                    }
 
                     // check the exit hadnle
                     if (i == 0)
+                    {
+                        ReportDiagnosticMessage("Got exit signal");
                         break;
+                    }
 
                     // check an other check needed
                     if (i == 1)
                     {
+                        ReportDiagnosticMessage("Got force update check signal");
                         checkTSP = false;
                         continue;
                     }
@@ -185,34 +229,73 @@ namespace AppLimit.NetSparkle
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void _worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void _worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            if (e.ProgressPercentage == 1)
-            {                
-                NetSparkleAppCastItem currentItem = e.UserState as NetSparkleAppCastItem;
+            switch(e.ProgressPercentage)
+            {
+                case 1:
+                    {
+                        NetSparkleAppCastItem currentItem = e.UserState as NetSparkleAppCastItem;
 
-                NetSparkleForm frm = new NetSparkleForm(currentItem);
-                frm.TopMost = true;
-                DialogResult dlgResult = frm.ShowDialog();
+                        NetSparkleForm frm = new NetSparkleForm(currentItem);
+                        frm.TopMost = true;
+                        DialogResult dlgResult = frm.ShowDialog();
 
-                if (dlgResult == DialogResult.No)
-                {
-                    // skip this version
-                    NetSparkleConfiguration config = new NetSparkleConfiguration();
-                    config.SetVersionToSkip(currentItem.Version);            
-                }
-                else if (dlgResult == DialogResult.Yes)
-                {
-                    // download the binaries
-                    InitDownloadAndInstallProcess(currentItem);                   
-                }
-            }            
+                        if (dlgResult == DialogResult.No)
+                        {
+                            // skip this version
+                            NetSparkleConfiguration config = new NetSparkleConfiguration();
+                            config.SetVersionToSkip(currentItem.Version);
+                        }
+                        else if (dlgResult == DialogResult.Yes)
+                        {
+                            // download the binaries
+                            InitDownloadAndInstallProcess(currentItem);
+                        }
+                        break;
+                    }
+                case 0:
+                    {
+                        ReportDiagnosticMessage(e.UserState.ToString());
+                        break;
+                    }
+            }                        
         }
 
-        void InitDownloadAndInstallProcess(NetSparkleAppCastItem item)
+        private void InitDownloadAndInstallProcess(NetSparkleAppCastItem item)
         {
             NetSparkleDownloadProgress dlProgress = new NetSparkleDownloadProgress(item);
             dlProgress.Show();
         }
+
+        private void ReportDiagnosticMessage(String message)
+        {
+            if (_DiagnosticWindow.InvokeRequired)
+            {
+                _worker.ReportProgress(0, message);
+            }
+            else
+            {
+                _DiagnosticWindow.Report(message);
+            }
+        }
+
+        private void ShowDiagnosticWindowIfNeeded()
+        {
+            // check the diagnotic value
+            NetSparkleConfiguration config = new NetSparkleConfiguration();
+            if (config.ShowDiagnosticWindow)
+            {
+                Point newLocation = new Point();
+
+                newLocation.X = Screen.PrimaryScreen.Bounds.Width - _DiagnosticWindow.Width;
+                newLocation.Y = 0;
+
+                _DiagnosticWindow.Location = newLocation;
+
+                _DiagnosticWindow.Show();
+            }
+        }        
+
     }
 }
