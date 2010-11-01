@@ -171,14 +171,17 @@ namespace AppLimit.NetSparkle
                 }
 
                 // check if the version will be the same then the installed version
-                if (latestVersion.Version.Equals(config.InstalledVersion))
+                Version v1 = new Version(config.InstalledVersion);
+                Version v2 = new Version(latestVersion.Version);
+
+                if (v2 <= v1)
                 {
                     ReportDiagnosticMessage("Installed version is valid, no update needed (" + config.InstalledVersion + ")");
                     goto WaitSection;
                 }
 
                 // show the update windows     
-                ReportDiagnosticMessage("Update needed to version " + latestVersion.Version);
+                ReportDiagnosticMessage("Update needed from version " + config.InstalledVersion + " to version " + latestVersion.Version);
                 _worker.ReportProgress(1, latestVersion);
 
             WaitSection:
