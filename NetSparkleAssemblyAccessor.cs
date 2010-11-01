@@ -33,7 +33,7 @@ namespace AppLimit.NetSparkle
             {
                 return Assembly.GetEntryAssembly().GetName().Version.ToString();
             }
-        }
+        }        
 
         public string AssemblyDescription
         {
