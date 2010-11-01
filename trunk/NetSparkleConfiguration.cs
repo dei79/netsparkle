@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Win32;
+using System.Diagnostics;
 
 namespace AppLimit.NetSparkle
 {
@@ -49,10 +50,13 @@ namespace AppLimit.NetSparkle
                 // load the values
                 LoadValuesFromPath(regPath);                                
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 // disable update checks when exception was called 
                 CheckForUpdate = false;
+
+                if (e.Message.Contains("STOP:"))
+                    throw e;
             }
         }
 
@@ -95,6 +99,11 @@ namespace AppLimit.NetSparkle
         private String BuildRegistryPath()
         {
             NetSparkleAssemblyAccessor accessor = new NetSparkleAssemblyAccessor();
+
+            if (accessor.AssemblyCompany == null || accessor.AssemblyCompany.Length == 0 ||
+                    accessor.AssemblyProduct == null || accessor.AssemblyProduct.Length == 0)
+                throw new Exception("STOP: Sparkle is missing the company or productname tag");
+            
             return "Software\\" + accessor.AssemblyCompany + "\\" + accessor.AssemblyProduct;
         }
 
