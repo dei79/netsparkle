@@ -49,7 +49,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::NetSparkle.Properties.Resources.software_update_available1;
+            this.pictureBox1.Image = global::AppLimit.NetSparkle.Properties.Resources.software_update_available1;
             this.pictureBox1.Location = new System.Drawing.Point(12, 12);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(48, 48);
