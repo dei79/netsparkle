@@ -104,7 +104,7 @@ namespace AppLimit.NetSparkle
                     accessor.AssemblyProduct == null || accessor.AssemblyProduct.Length == 0)
                 throw new Exception("STOP: Sparkle is missing the company or productname tag");
             
-            return "Software\\" + accessor.AssemblyCompany + "\\" + accessor.AssemblyProduct;
+            return "Software\\" + accessor.AssemblyCompany + "\\" + accessor.AssemblyProduct + "\\AutoUpdate";
         }
 
         /// <summary>
