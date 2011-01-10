@@ -123,7 +123,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NetSparkle2010.csproj">
+    <ProjectReference Include="..\NetSparkle\NetSparkle2010.csproj">
       <Project>{74635A21-2BAD-4522-AB95-E3E5703CD301}</Project>
       <Name>NetSparkle2010</Name>
     </ProjectReference>

@@ -85,7 +85,7 @@
     <None Include="Resources\software-update-available.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NetSparkle.csproj">
+    <ProjectReference Include="..\NetSparkle\NetSparkle.csproj">
       <Project>{74635A21-2BAD-4522-AB95-E3E5703CD301}</Project>
       <Name>NetSparkle</Name>
     </ProjectReference>
