@@ -47,7 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="NetSparkle.cs" />
     <Compile Include="NetSparkleAppCaseItem.cs" />
     <Compile Include="NetSparkleAppCast.cs" />
