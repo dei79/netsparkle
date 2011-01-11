@@ -48,7 +48,7 @@ namespace AppLimit.NetSparkle
         private void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             progressDownload.Visible = false;
-            btnInstallAndReLaunch.Visible = true;
+            btnInstallAndReLaunch.Visible = true;            
         }
                
         private void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
