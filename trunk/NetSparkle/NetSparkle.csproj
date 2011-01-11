@@ -61,6 +61,7 @@
     <Compile Include="NetSparkleDownloadProgress.Designer.cs">
       <DependentUpon>NetSparkleDownloadProgress.cs</DependentUpon>
     </Compile>
+    <Compile Include="NetSparkleDSAVerificator.cs" />
     <Compile Include="NetSparkleForm.cs">
       <SubType>Form</SubType>
     </Compile>
