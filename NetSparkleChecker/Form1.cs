@@ -26,6 +26,12 @@ namespace NetSparkleChecker
             else
             {
                 _sparkle = new Sparkle(args[0], false);
+                
+                NetSparkleConfiguration conf = new NetSparkleConfiguration();
+
+                NetSparkleAppCast cast = new NetSparkleAppCast(args[1], conf);
+                cast.GetLatestVersion();
+
                 _sparkle.checkLoopFinished += new LoopFinishedOperation(_sparkle_checkLoopFinished);
             }
         }
