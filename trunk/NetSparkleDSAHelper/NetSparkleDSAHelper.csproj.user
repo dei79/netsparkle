@@ -4,6 +4,6 @@
     <StartArguments>/genkey_pair</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <StartArguments>/sign_update NetSparkleDSAHelper.exe NetSparkle_DSA.priv</StartArguments>
+    <StartArguments>/verify_update NetSparkleDSAHelper.exe NetSparkle_DSA.pub "RqIK3SDSYKk6iLW/woFMX4shIioTarsQQcpTpjShe5V49E/Ao0Ajcg=="</StartArguments>
   </PropertyGroup>
 </Project>
