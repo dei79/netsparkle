@@ -17,6 +17,7 @@ namespace AppLimit.NetSparkle
         private const String enclosureNode = "enclosure";
         private const String releaseNotesLinkNode = "sparkle:releaseNotesLink";
         private const String versionAttribute = "sparkle:version";
+        private const String dasSignature = "sparkle:dsaSignature";
         private const String urlAttribute = "url";
 
         public NetSparkleAppCast(String castUrl, NetSparkleConfiguration config)
@@ -59,11 +60,13 @@ namespace AppLimit.NetSparkle
                                     currentItem.ReleaseNotesLink = reader.ReadString();
                                     currentItem.ReleaseNotesLink = currentItem.ReleaseNotesLink.Trim('\n');
                                     break;
-                                }
+                                }                            
                             case enclosureNode:
                                 {
                                     currentItem.Version = reader.GetAttribute(versionAttribute);
                                     currentItem.DownloadLink = reader.GetAttribute(urlAttribute);
+                                    currentItem.DSASignature = reader.GetAttribute(dasSignature);
+
                                     break;
                                 }
                         }

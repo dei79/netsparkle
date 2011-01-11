@@ -14,6 +14,8 @@ namespace AppLimit.NetSparkle
         public String ReleaseNotesLink;
         public String DownloadLink;
 
+        public String DSASignature;
+
         #region IComparable<NetSparkleAppCastItem> Members
 
         public int CompareTo(NetSparkleAppCastItem other)
