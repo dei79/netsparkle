@@ -12,6 +12,20 @@ namespace AppLimit.NetSparkle
     {
         private DSACryptoServiceProvider _provider;
 
+        public static Boolean ExistsPublicKey(String publicKey)
+        {
+                // 1. try to load this from resource
+            Stream data = TryGetResourceStream(publicKey);
+            if (data == null )
+                data = TryGetFileResource(publicKey, data);
+
+            // 2. check the resource
+            if (data == null)
+                return false;
+            else
+                return true;
+        }
+
         public NetSparkleDSAVerificator(String publicKey)
         {
             // 1. try to load this from resource
@@ -69,7 +83,7 @@ namespace AppLimit.NetSparkle
             {
                 data = asm.GetManifestResourceStream(publicKey);
                 if (data != null)
-                    break;
+                    break;                
             }
             return data;
         }
