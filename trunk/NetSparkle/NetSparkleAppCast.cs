@@ -32,7 +32,6 @@ namespace AppLimit.NetSparkle
 
             try
             {
-
                 // build a http web request stream
                 WebRequest request = HttpWebRequest.Create(_castUrl);
 
@@ -88,17 +87,16 @@ namespace AppLimit.NetSparkle
                         }
                     }                    
                 }
-                
+
+                // add some other attributes
+                latestVersion.AppName = _config.ApplicationName;
+                latestVersion.AppVersionInstalled = _config.InstalledVersion;
             }
             catch (Exception)
             {
 
             }
-
-            // add some other attributes
-            latestVersion.AppName = _config.ApplicationName;
-            latestVersion.AppVersionInstalled = _config.InstalledVersion;
-
+            
             // go ahead
             return latestVersion;
         }
