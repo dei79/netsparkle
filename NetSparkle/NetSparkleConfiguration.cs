@@ -27,17 +27,21 @@ namespace AppLimit.NetSparkle
         public DateTime LastCheckTime       { get; private set; }
         public String   SkipThisVersion     { get; private set; }
         public Boolean  DidRunOnce           { get; private set; }
-        public Boolean ShowDiagnosticWindow { get; private set; }  
+        public Boolean ShowDiagnosticWindow { get; private set; }
+
+        private String _referenceAssembly;
 
         /// <summary>
         /// The constructor reads out all configured values
         /// </summary>        
-        public NetSparkleConfiguration()
+        public NetSparkleConfiguration(String ReferenceAssembly)
         {
+            _referenceAssembly = ReferenceAssembly;
+
             try
             {
                 // set some value from the binary
-                NetSparkleAssemblyAccessor accessor = new NetSparkleAssemblyAccessor();
+                NetSparkleAssemblyAccessor accessor = new NetSparkleAssemblyAccessor(ReferenceAssembly);
                 ApplicationName     = accessor.AssemblyProduct;
                 InstalledVersion    = accessor.AssemblyVersion;
 
@@ -98,7 +102,7 @@ namespace AppLimit.NetSparkle
         /// <returns></returns>
         private String BuildRegistryPath()
         {
-            NetSparkleAssemblyAccessor accessor = new NetSparkleAssemblyAccessor();
+            NetSparkleAssemblyAccessor accessor = new NetSparkleAssemblyAccessor(_referenceAssembly);
 
             if (accessor.AssemblyCompany == null || accessor.AssemblyCompany.Length == 0 ||
                     accessor.AssemblyProduct == null || accessor.AssemblyProduct.Length == 0)

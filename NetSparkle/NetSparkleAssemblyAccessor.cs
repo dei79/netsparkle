@@ -3,18 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.IO;
 
 namespace AppLimit.NetSparkle
 {
     public class NetSparkleAssemblyAccessor
     {
+        private Assembly _assembly;
+        
+        public NetSparkleAssemblyAccessor(String assemblyName)
+        {
+            if (assemblyName == null)
+                _assembly = Assembly.GetEntryAssembly();
+            else
+            {
+                String absolutePath = Path.GetFullPath(assemblyName);
+                if (!File.Exists(absolutePath))
+                    throw new FileNotFoundException();
+
+                _assembly = Assembly.LoadFile(absolutePath);                
+            }
+        }
+
         #region Assembly Attribute Accessors
 
         public string AssemblyTitle
         {
             get
             {
-                object[] attributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+                object[] attributes = _assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
                 if (attributes.Length > 0)
                 {
                     AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
@@ -31,7 +48,7 @@ namespace AppLimit.NetSparkle
         {
             get
             {
-                return Assembly.GetEntryAssembly().GetName().Version.ToString();
+                return _assembly.GetName().Version.ToString();
             }
         }        
 
@@ -39,7 +56,7 @@ namespace AppLimit.NetSparkle
         {
             get
             {
-                object[] attributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
+                object[] attributes = _assembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
@@ -52,7 +69,7 @@ namespace AppLimit.NetSparkle
         {
             get
             {
-                object[] attributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
+                object[] attributes = _assembly.GetCustomAttributes(typeof(AssemblyProductAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
@@ -65,7 +82,7 @@ namespace AppLimit.NetSparkle
         {
             get
             {
-                object[] attributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+                object[] attributes = _assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
@@ -78,7 +95,7 @@ namespace AppLimit.NetSparkle
         {
             get
             {
-                object[] attributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
+                object[] attributes = _assembly.GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";

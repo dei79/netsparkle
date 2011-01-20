@@ -21,6 +21,7 @@ namespace AppLimit.NetSparkle
         private BackgroundWorker _worker;
 
         private String          _AppCastUrl;
+        private String          _AppReferenceAssembly;
 
         private EventWaitHandle _exitHandle;
         private EventWaitHandle _performUpdateHandle;
@@ -31,18 +32,48 @@ namespace AppLimit.NetSparkle
         public event LoopFinishedOperation checkLoopFinished;
       
         /// <summary>
-        /// The constructore starts NetSparkle
+        /// the ctor
+        /// </summary>
+        public Sparkle()            
+        {
+            _AppReferenceAssembly = null;
+        }
+        
+        /// <summary>
+        /// The method starts NetSparkle
+        /// If NetSparkle is configured to check for updates on startup, proceeds to perform 
+        /// the check. You should only call this function when your app is initialized and 
+        /// shows its main window.                
+        /// </summary>
+        /// <param name="appcastUrl"></param>
+        public void StartLoop(String appcastUrl)
+        {
+            StartLoop(appcastUrl, true);
+        }
+
+        /// <summary>
+        /// The method starts NetSparkle
         /// If NetSparkle is configured to check for updates on startup, proceeds to perform 
         /// the check. You should only call this function when your app is initialized and 
         /// shows its main window.        
         /// </summary>
-        /// <param name="appcastUrl">URL for the app's appcast.</param>
-        /// /// <param name="noInitialCheck">check during start up phase</param>
-        public Sparkle(String appcastUrl)
-            : this(appcastUrl, true)
-        { }
+        /// <param name="appcastUrl"></param>
+        /// <param name="doInitialCheck"></param>
+        public void StartLoop(String appcastUrl, Boolean doInitialCheck)
+        {
+            StartLoop(appcastUrl, null, doInitialCheck);
+        }
 
-        public Sparkle(String appcastUrl, Boolean doInitialCheck)
+        /// <summary>
+        /// The method starts NetSparkle
+        /// If NetSparkle is configured to check for updates on startup, proceeds to perform 
+        /// the check. You should only call this function when your app is initialized and 
+        /// shows its main window.        
+        /// </summary>
+        /// <param name="appcastUrl"></param>
+        /// <param name="referenceAssembly"></param>
+        /// <param name="doInitialCheck"></param>
+        public void StartLoop(String appcastUrl, String referenceAssembly, Boolean doInitialCheck)
         {
             // Start the helper thread as a background worker to 
             // get well ui interaction
@@ -54,8 +85,14 @@ namespace AppLimit.NetSparkle
             ShowDiagnosticWindowIfNeeded();
 
             // set the url
-            _AppCastUrl = appcastUrl;
+            _AppCastUrl = appcastUrl;            
             _DiagnosticWindow.Report("Using the following url: " + _AppCastUrl);
+
+            if (referenceAssembly != null)
+            {
+                _AppReferenceAssembly = referenceAssembly;
+                _DiagnosticWindow.Report("Checking the following file: " + _AppReferenceAssembly);
+            }
 
             // create and configure the worker
             _DiagnosticWindow.Report("Starting background worker");
@@ -73,7 +110,17 @@ namespace AppLimit.NetSparkle
             // start the work
             _worker.RunWorkerAsync(doInitialCheck);
         }
-               
+
+        /// <summary>
+        /// This method will stop sarkle and is called
+        /// through the disposable interface automatically
+        /// </summary>
+        public void ShutdownSparkle()
+        {
+            // ensure the work will finished
+            _exitHandle.Set();
+        }
+
         /// <summary>
         /// Cleans up after NetSparkle.
         /// Should be called by the app when it's shutting down. Cancels any
@@ -81,15 +128,15 @@ namespace AppLimit.NetSparkle
         /// </summary>
         public void Dispose()
         {
-            // ensure the work will finished
-            _exitHandle.Set();
+            ShutdownSparkle();
         }
 
-        /// <summary>
+
+        /// <summary>        
         /// This method will perform an update check
-        /// </summary>
+        /// </summary>                         
         public void CheckForUpdates()
-        {
+        {                
             // set an update 
             _performUpdateHandle.Set();
         }
@@ -133,7 +180,7 @@ namespace AppLimit.NetSparkle
                 // read the config
                 ReportDiagnosticMessage("Reading config...");
                 NetSparkleConfiguration config;
-                config = new NetSparkleConfiguration();
+                config = new NetSparkleConfiguration(_AppReferenceAssembly);
 
                 // check if it's ok the recheck to software state
                 if (checkTSP)
@@ -267,7 +314,7 @@ namespace AppLimit.NetSparkle
                         if (dlgResult == DialogResult.No)
                         {
                             // skip this version
-                            NetSparkleConfiguration config = new NetSparkleConfiguration();
+                            NetSparkleConfiguration config = new NetSparkleConfiguration(_AppReferenceAssembly);
                             config.SetVersionToSkip(currentItem.Version);
                         }
                         else if (dlgResult == DialogResult.Yes)
@@ -306,7 +353,7 @@ namespace AppLimit.NetSparkle
         private void ShowDiagnosticWindowIfNeeded()
         {
             // check the diagnotic value
-            NetSparkleConfiguration config = new NetSparkleConfiguration();
+            NetSparkleConfiguration config = new NetSparkleConfiguration(_AppReferenceAssembly);
             if (config.ShowDiagnosticWindow)
             {
                 Point newLocation = new Point();
