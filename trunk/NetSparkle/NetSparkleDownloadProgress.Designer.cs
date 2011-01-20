@@ -33,6 +33,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.progressDownload = new System.Windows.Forms.ProgressBar();
             this.btnInstallAndReLaunch = new System.Windows.Forms.Button();
+            this.lblSecurityHint = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,7 +69,7 @@
             // 
             // btnInstallAndReLaunch
             // 
-            this.btnInstallAndReLaunch.Location = new System.Drawing.Point(139, 37);
+            this.btnInstallAndReLaunch.Location = new System.Drawing.Point(148, 37);
             this.btnInstallAndReLaunch.Name = "btnInstallAndReLaunch";
             this.btnInstallAndReLaunch.Size = new System.Drawing.Size(127, 23);
             this.btnInstallAndReLaunch.TabIndex = 10;
@@ -76,11 +77,24 @@
             this.btnInstallAndReLaunch.UseVisualStyleBackColor = true;
             this.btnInstallAndReLaunch.Click += new System.EventHandler(this.btnInstallAndReLaunch_Click);
             // 
+            // lblSecurityHint
+            // 
+            this.lblSecurityHint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSecurityHint.Location = new System.Drawing.Point(66, 63);
+            this.lblSecurityHint.Name = "lblSecurityHint";
+            this.lblSecurityHint.Size = new System.Drawing.Size(290, 34);
+            this.lblSecurityHint.TabIndex = 11;
+            this.lblSecurityHint.Text = "The update was affected by not verified changes, it could be unsafe to install it" +
+                "!";
+            this.lblSecurityHint.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // NetSparkleDownloadProgress
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(368, 70);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(368, 99);
+            this.Controls.Add(this.lblSecurityHint);
             this.Controls.Add(this.btnInstallAndReLaunch);
             this.Controls.Add(this.progressDownload);
             this.Controls.Add(this.lblHeader);
@@ -103,6 +117,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ProgressBar progressDownload;
         private System.Windows.Forms.Button btnInstallAndReLaunch;
+        private System.Windows.Forms.Label lblSecurityHint;
 
 
     }
