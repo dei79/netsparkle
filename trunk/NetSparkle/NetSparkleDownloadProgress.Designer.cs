@@ -30,11 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NetSparkleDownloadProgress));
             this.lblHeader = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.imgAppIcon = new System.Windows.Forms.PictureBox();
             this.progressDownload = new System.Windows.Forms.ProgressBar();
             this.btnInstallAndReLaunch = new System.Windows.Forms.Button();
             this.lblSecurityHint = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgAppIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // lblHeader
@@ -48,15 +48,15 @@
             this.lblHeader.TabIndex = 8;
             this.lblHeader.Text = "Downloading APP X.X.X.X ...";
             // 
-            // pictureBox1
+            // imgAppIcon
             // 
-            this.pictureBox1.Image = global::AppLimit.NetSparkle.Properties.Resources.software_update_available1;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(48, 48);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox1.TabIndex = 6;
-            this.pictureBox1.TabStop = false;
+            this.imgAppIcon.Image = global::AppLimit.NetSparkle.Properties.Resources.software_update_available1;
+            this.imgAppIcon.Location = new System.Drawing.Point(12, 12);
+            this.imgAppIcon.Name = "imgAppIcon";
+            this.imgAppIcon.Size = new System.Drawing.Size(48, 48);
+            this.imgAppIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgAppIcon.TabIndex = 6;
+            this.imgAppIcon.TabStop = false;
             // 
             // progressDownload
             // 
@@ -98,14 +98,14 @@
             this.Controls.Add(this.btnInstallAndReLaunch);
             this.Controls.Add(this.progressDownload);
             this.Controls.Add(this.lblHeader);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.imgAppIcon);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NetSparkleDownloadProgress";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Software Download";
             this.TopMost = true;
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgAppIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -114,7 +114,7 @@
         #endregion
 
         private System.Windows.Forms.Label lblHeader;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox imgAppIcon;
         private System.Windows.Forms.ProgressBar progressDownload;
         private System.Windows.Forms.Button btnInstallAndReLaunch;
         private System.Windows.Forms.Label lblSecurityHint;

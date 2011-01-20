@@ -18,9 +18,15 @@ namespace NetSparkleChecker
         public Boolean SprakleRequestedUpdate = false;
         public NetSparkleAppCastItem LatesVersion = null;
 
-        public NetSparkleCheckerWaitUI(Sparkle sparkle)
+        public NetSparkleCheckerWaitUI(Sparkle sparkle, Image appIcon, Icon windowIcon)
         {
             InitializeComponent();
+
+            if (appIcon != null)
+                imgAppIcon.Image = appIcon;
+
+            if (windowIcon != null)
+                Icon = windowIcon;
 
             _sparkle = sparkle;
 

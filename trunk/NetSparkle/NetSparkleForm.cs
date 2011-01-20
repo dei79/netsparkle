@@ -13,7 +13,7 @@ namespace AppLimit.NetSparkle
     {
         NetSparkleAppCastItem _currentItem;
         
-        public NetSparkleForm(NetSparkleAppCastItem item)
+        public NetSparkleForm(NetSparkleAppCastItem item, Image appIcon, Icon windowIcon)
         {            
             InitializeComponent();
             
@@ -31,6 +31,12 @@ namespace AppLimit.NetSparkle
                 doc.Write(string.Empty);
                 NetSparkleBrowser.DocumentText = "<b>Currently no release notes available!</b>";
             }
+
+            if (appIcon != null)
+                imgAppIcon.Image = appIcon;
+
+            if (windowIcon != null)
+                Icon = windowIcon;
         }
 
         private void skipButton_Click(object sender, EventArgs e)

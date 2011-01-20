@@ -44,7 +44,7 @@ namespace NetSparkleChecker
                 Sparkle _sparkle = new Sparkle(args[2], args[1]);
 
                 // show the form
-                NetSparkleCheckerWaitUI frmWait = new NetSparkleCheckerWaitUI(_sparkle);
+                NetSparkleCheckerWaitUI frmWait = new NetSparkleCheckerWaitUI(_sparkle, _sparkle.ApplicationIcon, _sparkle.ApplicationWindowIcon);
                 Application.Run(frmWait);
 
                 // check for update

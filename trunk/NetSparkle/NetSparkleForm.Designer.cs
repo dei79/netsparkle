@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NetSparkleForm));
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.imgAppIcon = new System.Windows.Forms.PictureBox();
             this.lblHeader = new System.Windows.Forms.Label();
             this.lblInfoText = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -38,19 +38,19 @@
             this.updateButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.NetSparkleBrowser = new System.Windows.Forms.WebBrowser();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgAppIcon)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // pictureBox1
+            // imgAppIcon
             // 
-            this.pictureBox1.Image = global::AppLimit.NetSparkle.Properties.Resources.software_update_available1;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(48, 48);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.imgAppIcon.Image = global::AppLimit.NetSparkle.Properties.Resources.software_update_available1;
+            this.imgAppIcon.Location = new System.Drawing.Point(12, 12);
+            this.imgAppIcon.Name = "imgAppIcon";
+            this.imgAppIcon.Size = new System.Drawing.Size(48, 48);
+            this.imgAppIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgAppIcon.TabIndex = 0;
+            this.imgAppIcon.TabStop = false;
             // 
             // lblHeader
             // 
@@ -146,7 +146,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lblInfoText);
             this.Controls.Add(this.lblHeader);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.imgAppIcon);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(490, 460);
             this.MinimumSize = new System.Drawing.Size(490, 460);
@@ -154,7 +154,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Software Update";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgAppIcon)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -163,7 +163,7 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox imgAppIcon;
         private System.Windows.Forms.Label lblHeader;
         private System.Windows.Forms.Label lblInfoText;
         private System.Windows.Forms.Label label3;

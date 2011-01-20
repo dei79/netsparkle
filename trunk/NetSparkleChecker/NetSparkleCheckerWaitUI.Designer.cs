@@ -30,10 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NetSparkleCheckerWaitUI));
             this.lblHeader = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.imgAppIcon = new System.Windows.Forms.PictureBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.bckWorker = new System.ComponentModel.BackgroundWorker();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgAppIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // lblHeader
@@ -46,15 +46,15 @@
             this.lblHeader.TabIndex = 7;
             this.lblHeader.Text = "Checking for new updates....";
             // 
-            // pictureBox1
+            // imgAppIcon
             // 
-            this.pictureBox1.Image = global::NetSparkleChecker.Properties.Resources.software_update_available;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(48, 48);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox1.TabIndex = 6;
-            this.pictureBox1.TabStop = false;
+            this.imgAppIcon.Image = global::NetSparkleChecker.Properties.Resources.software_update_available;
+            this.imgAppIcon.Location = new System.Drawing.Point(12, 12);
+            this.imgAppIcon.Name = "imgAppIcon";
+            this.imgAppIcon.Size = new System.Drawing.Size(48, 48);
+            this.imgAppIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgAppIcon.TabIndex = 6;
+            this.imgAppIcon.TabStop = false;
             // 
             // progressBar1
             // 
@@ -78,12 +78,12 @@
             this.ClientSize = new System.Drawing.Size(420, 71);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.lblHeader);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.imgAppIcon);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NetSparkleCheckerWaitUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Checking for new updates";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgAppIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -92,7 +92,7 @@
         #endregion
 
         private System.Windows.Forms.Label lblHeader;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox imgAppIcon;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.ComponentModel.BackgroundWorker bckWorker;
     }
