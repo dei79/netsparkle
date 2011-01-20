@@ -1,0 +1,5 @@
+F:\applimit\App.Limit\Projects\NetSparkle\trunk\NetSparklTestApp\bin\Release\NetSparklTestApp.exe
+F:\applimit\App.Limit\Projects\NetSparkle\trunk\NetSparklTestApp\bin\Release\NetSparklTestApp.pdb
+F:\applimit\App.Limit\Projects\NetSparkle\trunk\NetSparklTestApp\obj\x86\Release\ResolveAssemblyReference.cache
+F:\applimit\App.Limit\Projects\NetSparkle\trunk\NetSparklTestApp\obj\x86\Release\NetSparklTestApp.exe
+F:\applimit\App.Limit\Projects\NetSparkle\trunk\NetSparklTestApp\obj\x86\Release\NetSparklTestApp.pdb

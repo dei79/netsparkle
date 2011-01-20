@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSparkle2010", "NetSparkl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSparkleDSAHelper", "NetSparkleDSAHelper\NetSparkleDSAHelper.csproj", "{B4D6FCB0-1217-4AFA-A2A5-4BA5482876C0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSparklTestApp", "NetSparklTestApp\NetSparklTestApp.csproj", "{B3E0EDFB-F1E5-43A8-8136-EFBCB2BC41EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,16 @@ Global
 		{B4D6FCB0-1217-4AFA-A2A5-4BA5482876C0}.Release|Mixed Platforms.Build.0 = Release|x86
 		{B4D6FCB0-1217-4AFA-A2A5-4BA5482876C0}.Release|x86.ActiveCfg = Release|x86
 		{B4D6FCB0-1217-4AFA-A2A5-4BA5482876C0}.Release|x86.Build.0 = Release|x86
+		{B3E0EDFB-F1E5-43A8-8136-EFBCB2BC41EB}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{B3E0EDFB-F1E5-43A8-8136-EFBCB2BC41EB}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{B3E0EDFB-F1E5-43A8-8136-EFBCB2BC41EB}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{B3E0EDFB-F1E5-43A8-8136-EFBCB2BC41EB}.Debug|x86.ActiveCfg = Debug|x86
+		{B3E0EDFB-F1E5-43A8-8136-EFBCB2BC41EB}.Debug|x86.Build.0 = Debug|x86
+		{B3E0EDFB-F1E5-43A8-8136-EFBCB2BC41EB}.Release|Any CPU.ActiveCfg = Release|x86
+		{B3E0EDFB-F1E5-43A8-8136-EFBCB2BC41EB}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{B3E0EDFB-F1E5-43A8-8136-EFBCB2BC41EB}.Release|Mixed Platforms.Build.0 = Release|x86
+		{B3E0EDFB-F1E5-43A8-8136-EFBCB2BC41EB}.Release|x86.ActiveCfg = Release|x86
+		{B3E0EDFB-F1E5-43A8-8136-EFBCB2BC41EB}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
