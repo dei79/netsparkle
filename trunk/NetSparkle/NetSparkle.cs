@@ -376,7 +376,7 @@ namespace AppLimit.NetSparkle
         
         private void InitDownloadAndInstallProcess(NetSparkleAppCastItem item)
         {
-            NetSparkleDownloadProgress dlProgress = new NetSparkleDownloadProgress(item);
+            NetSparkleDownloadProgress dlProgress = new NetSparkleDownloadProgress(item, _AppReferenceAssembly);
             dlProgress.ShowDialog();
         }
 

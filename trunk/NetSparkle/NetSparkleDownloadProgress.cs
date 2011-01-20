@@ -10,6 +10,7 @@ using System.Threading;
 using System.Net;
 using System.IO;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace AppLimit.NetSparkle
 {
@@ -17,13 +18,15 @@ namespace AppLimit.NetSparkle
     {
         private String _tempName;
         private NetSparkleAppCastItem _item;
+        private String _referencedAssembly;
 
-        public NetSparkleDownloadProgress(NetSparkleAppCastItem item)
+        public NetSparkleDownloadProgress(NetSparkleAppCastItem item, String referencedAssembly)
         {
             InitializeComponent();
            
             // store the item
             _item = item;
+            _referencedAssembly = referencedAssembly;
 
             // init ui
             btnInstallAndReLaunch.Visible = false;
@@ -64,11 +67,23 @@ namespace AppLimit.NetSparkle
 
             Boolean bDSAOk = false;
 
-            if (NetSparkleDSAVerificator.ExistsPublicKey("NetSparkleTestApp.NetSparkle_DSA.pub"))
+            // get the assembly
+            if (File.Exists(_referencedAssembly))
             {
-                // check the DSA Code and modify the back color            
-                NetSparkleDSAVerificator dsaVerifier = new NetSparkleDSAVerificator("NetSparkleTestApp.NetSparkle_DSA.pub");
-                bDSAOk = dsaVerifier.VerifyDSASignature(_item.DSASignature, _tempName);
+                String absolutePath = Path.GetFullPath(_referencedAssembly);
+                if (!File.Exists(absolutePath))
+                    throw new FileNotFoundException();
+
+                Assembly refassembly = Assembly.LoadFile(absolutePath);
+                if (refassembly != null)
+                {
+                    if (NetSparkleDSAVerificator.ExistsPublicKey(refassembly.GetName().Name + ".NetSparkle_DSA.pub"))
+                    {
+                        // check the DSA Code and modify the back color            
+                        NetSparkleDSAVerificator dsaVerifier = new NetSparkleDSAVerificator(refassembly.GetName().Name + ".NetSparkle_DSA.pub");
+                        bDSAOk = dsaVerifier.VerifyDSASignature(_item.DSASignature, _tempName);
+                    }
+                }
             }
 
             if ( !bDSAOk )
@@ -91,14 +106,31 @@ namespace AppLimit.NetSparkle
             String workingDir = Environment.CurrentDirectory;
 
             // generate the batch file path
-            String cmd = Environment.ExpandEnvironmentVariables("%temp%\\" + Guid.NewGuid() + ".cmd");
+            String cmd = "";
 
-            // generate the batch file
-            StreamWriter write = new StreamWriter(cmd);
-            write.WriteLine("msiexec /i " + _tempName);
-            write.WriteLine("cd " + workingDir);
-            write.WriteLine(cmdLine);
-            write.Close();
+            // get the file type
+            if (Path.GetExtension(_tempName).ToLower().Equals(".exe"))
+            {
+                cmd = _tempName;
+            }
+            else if (Path.GetExtension(_tempName).ToLower().Equals(".msi"))
+            {
+                // build up the command line
+                cmd = Environment.ExpandEnvironmentVariables("%temp%\\" + Guid.NewGuid() + ".cmd");
+
+                // generate the batch file
+                StreamWriter write = new StreamWriter(cmd);
+                write.WriteLine("msiexec /i " + _tempName);
+                write.WriteLine("cd " + workingDir);
+                write.WriteLine(cmdLine);
+                write.Close();
+            }
+            else
+            {
+                MessageBox.Show("Updater not supported, please execute " + _tempName + " manually", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(-1);
+                return;
+            }
 
             // start the installer helper
             Process process = new Process();

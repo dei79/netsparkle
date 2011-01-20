@@ -69,7 +69,7 @@
             // 
             // btnInstallAndReLaunch
             // 
-            this.btnInstallAndReLaunch.Location = new System.Drawing.Point(148, 37);
+            this.btnInstallAndReLaunch.Location = new System.Drawing.Point(145, 37);
             this.btnInstallAndReLaunch.Name = "btnInstallAndReLaunch";
             this.btnInstallAndReLaunch.Size = new System.Drawing.Size(127, 23);
             this.btnInstallAndReLaunch.TabIndex = 10;
