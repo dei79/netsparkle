@@ -37,6 +37,23 @@ namespace AppLimit.NetSparkle
         /// </summary>
         public event LoopFinishedOperation checkLoopFinished;
 
+        /// <summary>
+        /// This property holds an optional application icon
+        /// which will be displayed in the software update dialog. The icon has
+        /// to be 48x48 pixels.
+        /// </summary>
+        public Image ApplicationIcon { get; set; }
+
+        /// <summary>
+        /// This property returns an optional application icon 
+        /// which will displayed in the windows as self
+        /// </summary>
+        public Icon  ApplicationWindowIcon { get; set; }
+
+        /// <summary>
+        /// This property enables a diagnostic window for debug reasons
+        /// </summary>
+        public Boolean ShowDiagnosticWindow { get; set; }
 
         /// <summary>
         /// ctor which needs the appcast url
@@ -52,6 +69,7 @@ namespace AppLimit.NetSparkle
         public Sparkle(String appcastUrl, String referenceAssembly)            
         {
             // reset vars
+            ApplicationIcon = null;
             _AppReferenceAssembly = null;
 
             // create the diagnotic window
@@ -96,7 +114,10 @@ namespace AppLimit.NetSparkle
         {
             // Start the helper thread as a background worker to 
             // get well ui interaction                        
-            
+
+            // show if needed
+            ShowDiagnosticWindowIfNeeded();
+
             // store infos
             _DoInitialCheck     = doInitialCheck;
             _ForceInitialCheck  = forceInitialCheck;
@@ -204,7 +225,7 @@ namespace AppLimit.NetSparkle
         /// <param name="currentItem"></param>
         public void ShowUpdateNeededUI(NetSparkleAppCastItem currentItem)
         {
-            NetSparkleForm frm = new NetSparkleForm(currentItem);
+            NetSparkleForm frm = new NetSparkleForm(currentItem, ApplicationIcon, ApplicationWindowIcon);
             frm.TopMost = true;
             DialogResult dlgResult = frm.ShowDialog();
 
@@ -376,7 +397,7 @@ namespace AppLimit.NetSparkle
         
         private void InitDownloadAndInstallProcess(NetSparkleAppCastItem item)
         {
-            NetSparkleDownloadProgress dlProgress = new NetSparkleDownloadProgress(item, _AppReferenceAssembly);
+            NetSparkleDownloadProgress dlProgress = new NetSparkleDownloadProgress(item, _AppReferenceAssembly, ApplicationIcon, ApplicationWindowIcon);
             dlProgress.ShowDialog();
         }
 
@@ -396,7 +417,7 @@ namespace AppLimit.NetSparkle
         {
             // check the diagnotic value
             NetSparkleConfiguration config = new NetSparkleConfiguration(_AppReferenceAssembly);
-            if (config.ShowDiagnosticWindow)
+            if (config.ShowDiagnosticWindow || ShowDiagnosticWindow)
             {
                 Point newLocation = new Point();
 

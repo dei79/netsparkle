@@ -20,10 +20,16 @@ namespace AppLimit.NetSparkle
         private NetSparkleAppCastItem _item;
         private String _referencedAssembly;
 
-        public NetSparkleDownloadProgress(NetSparkleAppCastItem item, String referencedAssembly)
+        public NetSparkleDownloadProgress(NetSparkleAppCastItem item, String referencedAssembly, Image appIcon, Icon windowIcon)
         {
             InitializeComponent();
-           
+
+            if (appIcon != null)
+                imgAppIcon.Image = appIcon;
+
+            if (windowIcon != null)
+                Icon = windowIcon;
+
             // store the item
             _item = item;
             _referencedAssembly = referencedAssembly;
