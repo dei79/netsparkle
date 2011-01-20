@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSparkle2010", "NetSparkl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSparkleDSAHelper", "NetSparkleDSAHelper\NetSparkleDSAHelper.csproj", "{B4D6FCB0-1217-4AFA-A2A5-4BA5482876C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSparklTestApp", "NetSparklTestApp\NetSparklTestApp.csproj", "{B3E0EDFB-F1E5-43A8-8136-EFBCB2BC41EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSparkleTestApp", "NetSparkleTestApp\NetSparkleTestApp.csproj", "{B3E0EDFB-F1E5-43A8-8136-EFBCB2BC41EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
