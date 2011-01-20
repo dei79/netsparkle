@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using System.IO;
 
 using AppLimit.NetSparkle;
 
@@ -29,7 +30,9 @@ namespace NetSparkleChecker
             String[] args = Environment.GetCommandLineArgs();
             if (args.Length != 3)
             {
-                MessageBox.Show("Invalid count of parameters");
+                MessageBox.Show("The NetSparkle Update Checker requires the following 2 commandline parameters:\n\n1: path to the application executable\n2: url of the appcast", 
+                                "NetSparkle Update Checker - Syntax", 
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             else
@@ -39,6 +42,15 @@ namespace NetSparkleChecker
                 // get the parameter
                 String referenceAssembly = args[1];
                 String appCast = args[2];
+
+                // check parameter
+                if (!File.Exists(referenceAssembly))
+                {
+                    MessageBox.Show("Couldn't find the application executable (" + Path.GetFullPath(referenceAssembly) + ")",
+                                    "NetSparkle Update Checker - Missing File",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
                 // build sparkle
                 _sparkle = new Sparkle(appCast, referenceAssembly);
