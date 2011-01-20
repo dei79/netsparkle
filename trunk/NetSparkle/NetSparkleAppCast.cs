@@ -90,7 +90,7 @@ namespace AppLimit.NetSparkle
                 }
                 
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }
