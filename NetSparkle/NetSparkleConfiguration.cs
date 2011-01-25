@@ -133,12 +133,12 @@ namespace AppLimit.NetSparkle
             if (key == null)
                 return false;
             else
-            {
-                // read out
-                String strCheckForUpdate = key.GetValue("CheckForUpdate", "1") as String;
+            {                
+                // read out                
+                String strCheckForUpdate = key.GetValue("CheckForUpdate", "True") as String;
                 String strLastCheckTime = key.GetValue("LastCheckTime", new DateTime(0).ToString()) as String;
-                String strSkipThisVersion = key.GetValue("SkipThisVersion", "") as String;
-                String strDidRunOnc = key.GetValue("DidRunOnce", "0") as String;
+                String strSkipThisVersion = key.GetValue("SkipThisVersion", "") as String;                
+                String strDidRunOnc = key.GetValue("DidRunOnce", "False") as String;
                 String strShowDiagnosticWindow = key.GetValue("ShowDiagnosticWindow", "False") as String;
 
                 // convert th right datatypes
