@@ -15,7 +15,7 @@ namespace AppLimit.NetSparkle
     
     public class Sparkle : IDisposable
     {
-        private BackgroundWorker _worker;
+        private BackgroundWorker _worker = new BackgroundWorker();
 
         private String          _AppCastUrl;
         private String          _AppReferenceAssembly;
@@ -66,17 +66,35 @@ namespace AppLimit.NetSparkle
         /// <summary>
         /// ctor which needs the appcast url and a referenceassembly
         /// </summary>
-        public Sparkle(String appcastUrl, String referenceAssembly)            
+        public Sparkle(String appcastUrl, String referenceAssembly)
+            : this(appcastUrl, referenceAssembly, false)
+        {}
+
+        /// <summary>
+        /// ctor which needs the appcast url and a referenceassembly
+        /// </summary>        
+        public Sparkle(String appcastUrl, String referenceAssembly, Boolean ShowDiagnostic )            
         {
             // reset vars
             ApplicationIcon = null;
             _AppReferenceAssembly = null;
+
+            // set var
+            ShowDiagnosticWindow = ShowDiagnostic;
 
             // create the diagnotic window
             _DiagnosticWindow = new NetSparkleMainWindows();
 
             // show if needed
             ShowDiagnosticWindowIfNeeded();
+                       
+            // adjust the delegates
+            _worker.WorkerReportsProgress = true;
+            _worker.DoWork += new DoWorkEventHandler(_worker_DoWork);
+            _worker.ProgressChanged += new ProgressChangedEventHandler(_worker_ProgressChanged);
+
+            // build the wait handle
+            _exitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);            
 
             // set the url
             _AppCastUrl = appcastUrl;
@@ -123,16 +141,7 @@ namespace AppLimit.NetSparkle
             _ForceInitialCheck  = forceInitialCheck;
 
             // create and configure the worker
-            _DiagnosticWindow.Report("Starting background worker");
-            _worker = new BackgroundWorker();            
-            _worker.WorkerReportsProgress = true;
-
-            // adjust the delegates
-            _worker.DoWork += new DoWorkEventHandler(_worker_DoWork);
-            _worker.ProgressChanged += new ProgressChangedEventHandler(_worker_ProgressChanged);
-
-            // build the wait handle
-            _exitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);            
+            _DiagnosticWindow.Report("Starting background worker");            
             
             // start the work
             _worker.RunWorkerAsync();
@@ -239,6 +248,22 @@ namespace AppLimit.NetSparkle
             {
                 // download the binaries
                 InitDownloadAndInstallProcess(currentItem);
+            }
+        }
+
+        /// <summary>
+        /// This method reports a message in the diagnostic window
+        /// </summary>
+        /// <param name="message"></param>
+        public void ReportDiagnosticMessage(String message)
+        {
+            if (_DiagnosticWindow.InvokeRequired)
+            {
+                _worker.ReportProgress(0, message);
+            }
+            else
+            {
+                _DiagnosticWindow.Report(message);
             }
         }
 
@@ -397,21 +422,9 @@ namespace AppLimit.NetSparkle
         
         private void InitDownloadAndInstallProcess(NetSparkleAppCastItem item)
         {
-            NetSparkleDownloadProgress dlProgress = new NetSparkleDownloadProgress(item, _AppReferenceAssembly, ApplicationIcon, ApplicationWindowIcon);
+            NetSparkleDownloadProgress dlProgress = new NetSparkleDownloadProgress(this, item, _AppReferenceAssembly, ApplicationIcon, ApplicationWindowIcon);
             dlProgress.ShowDialog();
-        }
-
-        private void ReportDiagnosticMessage(String message)
-        {
-            if (_DiagnosticWindow.InvokeRequired)
-            {
-                _worker.ReportProgress(0, message);
-            }
-            else
-            {
-                _DiagnosticWindow.Report(message);
-            }
-        }
+        }        
 
         private void ShowDiagnosticWindowIfNeeded()
         {

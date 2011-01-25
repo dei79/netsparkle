@@ -19,8 +19,9 @@ namespace AppLimit.NetSparkle
         private String _tempName;
         private NetSparkleAppCastItem _item;
         private String _referencedAssembly;
+        private Sparkle _sparkle;
 
-        public NetSparkleDownloadProgress(NetSparkleAppCastItem item, String referencedAssembly, Image appIcon, Icon windowIcon)
+        public NetSparkleDownloadProgress(Sparkle sparkle, NetSparkleAppCastItem item, String referencedAssembly, Image appIcon, Icon windowIcon)
         {
             InitializeComponent();
 
@@ -31,6 +32,7 @@ namespace AppLimit.NetSparkle
                 Icon = windowIcon;
 
             // store the item
+            _sparkle = sparkle;
             _item = item;
             _referencedAssembly = referencedAssembly;
 
@@ -67,11 +69,20 @@ namespace AppLimit.NetSparkle
             progressDownload.Visible = false;
             btnInstallAndReLaunch.Visible = true;            
 
+            // report message            
+            _sparkle.ReportDiagnosticMessage("Finished downloading file to: " + _tempName);
+
             // check if we have a dsa signature in appcast
             if (_item.DSASignature == null || _item.DSASignature.Length == 0)
+            {
+                _sparkle.ReportDiagnosticMessage("No DSA check needed");
                 return;
+            }
 
             Boolean bDSAOk = false;
+            
+            // report
+            _sparkle.ReportDiagnosticMessage("Performing DSA check");
 
             // get the assembly
             if (File.Exists(_referencedAssembly))
@@ -125,8 +136,8 @@ namespace AppLimit.NetSparkle
                 cmd = Environment.ExpandEnvironmentVariables("%temp%\\" + Guid.NewGuid() + ".cmd");
 
                 // generate the batch file
-                StreamWriter write = new StreamWriter(cmd);
-                write.WriteLine("msiexec /i " + _tempName);
+                StreamWriter write = new StreamWriter(cmd);                
+                write.WriteLine("msiexec /i \"" + _tempName + "\"");
                 write.WriteLine("cd " + workingDir);
                 write.WriteLine(cmdLine);
                 write.Close();
@@ -137,6 +148,9 @@ namespace AppLimit.NetSparkle
                 Environment.Exit(-1);
                 return;
             }
+
+            // report
+            _sparkle.ReportDiagnosticMessage("Going to execute batch: " + cmd);
 
             // start the installer helper
             Process process = new Process();
