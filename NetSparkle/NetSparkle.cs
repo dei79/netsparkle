@@ -75,6 +75,10 @@ namespace AppLimit.NetSparkle
         /// </summary>        
         public Sparkle(String appcastUrl, String referenceAssembly, Boolean ShowDiagnostic )            
         {
+            // enable visual style to ensure that we have XP style or higher
+            // also in WPF applications
+            System.Windows.Forms.Application.EnableVisualStyles();
+            
             // reset vars
             ApplicationIcon = null;
             _AppReferenceAssembly = null;

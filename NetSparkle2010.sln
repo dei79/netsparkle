@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSparkleDSAHelper", "NetS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSparkleTestApp", "NetSparkleTestApp\NetSparkleTestApp.csproj", "{B3E0EDFB-F1E5-43A8-8136-EFBCB2BC41EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSparkleTestAppWPF", "NetSparkleTestAppWPF\NetSparkleTestAppWPF.csproj", "{BBE308BB-4096-4E7B-A458-85172F47C497}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,16 @@ Global
 		{B3E0EDFB-F1E5-43A8-8136-EFBCB2BC41EB}.Release|Mixed Platforms.Build.0 = Release|x86
 		{B3E0EDFB-F1E5-43A8-8136-EFBCB2BC41EB}.Release|x86.ActiveCfg = Release|x86
 		{B3E0EDFB-F1E5-43A8-8136-EFBCB2BC41EB}.Release|x86.Build.0 = Release|x86
+		{BBE308BB-4096-4E7B-A458-85172F47C497}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{BBE308BB-4096-4E7B-A458-85172F47C497}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{BBE308BB-4096-4E7B-A458-85172F47C497}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{BBE308BB-4096-4E7B-A458-85172F47C497}.Debug|x86.ActiveCfg = Debug|x86
+		{BBE308BB-4096-4E7B-A458-85172F47C497}.Debug|x86.Build.0 = Debug|x86
+		{BBE308BB-4096-4E7B-A458-85172F47C497}.Release|Any CPU.ActiveCfg = Release|x86
+		{BBE308BB-4096-4E7B-A458-85172F47C497}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{BBE308BB-4096-4E7B-A458-85172F47C497}.Release|Mixed Platforms.Build.0 = Release|x86
+		{BBE308BB-4096-4E7B-A458-85172F47C497}.Release|x86.ActiveCfg = Release|x86
+		{BBE308BB-4096-4E7B-A458-85172F47C497}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
