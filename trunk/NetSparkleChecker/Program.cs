@@ -41,7 +41,8 @@ namespace NetSparkleChecker
                 }
 
                 // init sparkle
-                Sparkle _sparkle = new Sparkle(args[2], args[1]);
+                Sparkle _sparkle = new Sparkle(args[2], args[1], false);
+                
 
                 // show the form
                 NetSparkleCheckerWaitUI frmWait = new NetSparkleCheckerWaitUI(_sparkle, _sparkle.ApplicationIcon, _sparkle.ApplicationWindowIcon);
@@ -52,7 +53,7 @@ namespace NetSparkleChecker
                 {
                     _sparkle.ShowUpdateNeededUI(frmWait.LatesVersion);
                 }
-            }                        
+            }            
         }                   
     }
 }
