@@ -19,8 +19,9 @@ namespace AppLimit.NetSparkle
             
             _currentItem = item;
 
-            lblHeader.Text = "A new version of " + item.AppName + " is available!";
-            lblInfoText.Text = item.AppName + " " + item.Version + " is now available (you have " + item.AppVersionInstalled + "). Would you like to download it now?";
+            lblHeader.Text = lblHeader.Text.Replace("APP", item.AppName);
+            lblInfoText.Text = lblInfoText.Text.Replace("APP", item.AppName + " " + item.Version);
+            lblInfoText.Text = lblInfoText.Text.Replace("OLDVERSION", item.AppVersionInstalled);
 
             if (item.ReleaseNotesLink != null && item.ReleaseNotesLink.Length > 0)
                 NetSparkleBrowser.Navigate(item.ReleaseNotesLink);
