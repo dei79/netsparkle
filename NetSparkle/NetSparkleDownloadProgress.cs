@@ -38,7 +38,7 @@ namespace AppLimit.NetSparkle
 
             // init ui
             btnInstallAndReLaunch.Visible = false;
-            lblHeader.Text = "Downloading " + item.AppName + " " + item.Version + "...";
+            lblHeader.Text = lblHeader.Text.Replace("APP", item.AppName + " " + item.Version);
             progressDownload.Maximum = 100;
             progressDownload.Minimum = 0;
             progressDownload.Step = 1;

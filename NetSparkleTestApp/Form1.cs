@@ -8,22 +8,19 @@ using System.Text;
 using System.Windows.Forms;
 using AppLimit.NetSparkle;
 
-namespace NetSparkleTestAppWPF
+namespace NetSparkleTestApp
 {
     public partial class Form1 : Form
     {
-        private Sparkle _sparkle = new Sparkle("http://update.applimit.com/netsparkle/versioninfo.xml"); 
+        private Sparkle _sparkle; 
 
         public Form1()
         {
             InitializeComponent();
 
-            _sparkle.StartLoop(true);
-        }
+            _sparkle = new Sparkle("http://update.applimit.com/netsparkle/versioninfo.xml") { ShowDiagnosticWindow = true };
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
+            _sparkle.StartLoop(true);    
         }
     }
 }
