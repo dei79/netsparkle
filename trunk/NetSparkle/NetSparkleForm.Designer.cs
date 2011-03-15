@@ -80,24 +80,24 @@
             // 
             // panel1
             // 
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.NetSparkleBrowser);
-            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
             // NetSparkleBrowser
             // 
+            resources.ApplyResources(this.NetSparkleBrowser, "NetSparkleBrowser");
             this.NetSparkleBrowser.AllowNavigation = false;
             this.NetSparkleBrowser.AllowWebBrowserDrop = false;
-            resources.ApplyResources(this.NetSparkleBrowser, "NetSparkleBrowser");
             this.NetSparkleBrowser.IsWebBrowserContextMenuEnabled = false;
             this.NetSparkleBrowser.MinimumSize = new System.Drawing.Size(20, 28);
             this.NetSparkleBrowser.Name = "NetSparkleBrowser";
             // 
             // imgAppIcon
             // 
-            this.imgAppIcon.Image = global::AppLimit.NetSparkle.Properties.Resources.software_update_available1;
             resources.ApplyResources(this.imgAppIcon, "imgAppIcon");
+            this.imgAppIcon.Image = global::AppLimit.NetSparkle.Properties.Resources.software_update_available1;
             this.imgAppIcon.Name = "imgAppIcon";
             this.imgAppIcon.TabStop = false;
             // 
