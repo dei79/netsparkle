@@ -14,7 +14,7 @@ namespace NetSparkleTestApp
         [STAThread]
         static void Main()
         {
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("nl-NL");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
