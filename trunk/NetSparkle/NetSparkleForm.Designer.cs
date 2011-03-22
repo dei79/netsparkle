@@ -87,9 +87,7 @@
             // 
             // NetSparkleBrowser
             // 
-            resources.ApplyResources(this.NetSparkleBrowser, "NetSparkleBrowser");
-            this.NetSparkleBrowser.AllowNavigation = false;
-            this.NetSparkleBrowser.AllowWebBrowserDrop = false;
+            resources.ApplyResources(this.NetSparkleBrowser, "NetSparkleBrowser");            
             this.NetSparkleBrowser.IsWebBrowserContextMenuEnabled = false;
             this.NetSparkleBrowser.MinimumSize = new System.Drawing.Size(20, 28);
             this.NetSparkleBrowser.Name = "NetSparkleBrowser";
