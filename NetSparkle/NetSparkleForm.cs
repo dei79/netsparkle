@@ -17,6 +17,16 @@ namespace AppLimit.NetSparkle
         {            
             InitializeComponent();
             
+            // init ui 
+            try
+            {
+                NetSparkleBrowser.AllowWebBrowserDrop = false;
+                NetSparkleBrowser.AllowNavigation = false;
+            }
+            catch (Exception)
+            { }
+
+            
             _currentItem = item;
 
             lblHeader.Text = lblHeader.Text.Replace("APP", item.AppName);
