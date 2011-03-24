@@ -28,6 +28,7 @@ namespace AppLimit.NetSparkle
         public String   SkipThisVersion     { get; private set; }
         public Boolean  DidRunOnce           { get; private set; }
         public Boolean ShowDiagnosticWindow { get; private set; }
+        public DateTime LastProfileUpdate   { get; private set; }
 
         private String _referenceAssembly;
 
@@ -62,6 +63,21 @@ namespace AppLimit.NetSparkle
                 if (e.Message.Contains("STOP:"))
                     throw e;
             }
+        }
+
+        /// <summary>
+        /// Touches to profile time
+        /// </summary>
+        public void TouchProfileTime()
+        {
+            // set the prodilt update time
+            LastProfileUpdate = DateTime.Now;
+
+            // build path
+            String path = BuildRegistryPath();
+
+            // save the values
+            SaveValuesToPath(path);
         }
 
         /// <summary>
@@ -140,6 +156,7 @@ namespace AppLimit.NetSparkle
                 String strSkipThisVersion = key.GetValue("SkipThisVersion", "") as String;                
                 String strDidRunOnc = key.GetValue("DidRunOnce", "False") as String;
                 String strShowDiagnosticWindow = key.GetValue("ShowDiagnosticWindow", "False") as String;
+                String strProfileTime = key.GetValue("LastProfileUpdate", new DateTime(0).ToString()) as String;
 
                 // convert th right datatypes
                 CheckForUpdate = Convert.ToBoolean(strCheckForUpdate);
@@ -147,6 +164,7 @@ namespace AppLimit.NetSparkle
                 SkipThisVersion = strSkipThisVersion;
                 DidRunOnce = Convert.ToBoolean(strDidRunOnc);
                 ShowDiagnosticWindow = Convert.ToBoolean(strShowDiagnosticWindow);
+                LastProfileUpdate = Convert.ToDateTime(strProfileTime);
 
                 return true;
             }
@@ -169,12 +187,14 @@ namespace AppLimit.NetSparkle
                 String strLastCheckTime     = LastCheckTime.ToString();
                 String strSkipThisVersion   = SkipThisVersion.ToString();
                 String strDidRunOnc         = DidRunOnce.ToString();
+                String strProfileTime       = LastProfileUpdate.ToString();
 
                 // set the values
                 key.SetValue("CheckForUpdate", strCheckForUpdate, RegistryValueKind.String);
                 key.SetValue("LastCheckTime", strLastCheckTime, RegistryValueKind.String);
                 key.SetValue("SkipThisVersion", strSkipThisVersion, RegistryValueKind.String);
                 key.SetValue("DidRunOnce", strDidRunOnc, RegistryValueKind.String);
+                key.SetValue("LastProfileUpdate", strProfileTime, RegistryValueKind.String);
 
                 return true;
             }
