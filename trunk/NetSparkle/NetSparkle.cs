@@ -7,6 +7,9 @@ using System.Threading;
 using System.Net;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Management;
+using System.Diagnostics;
 
 namespace AppLimit.NetSparkle
 {
@@ -26,6 +29,16 @@ namespace AppLimit.NetSparkle
         private EventWaitHandle _exitHandle;        
 
         private NetSparkleMainWindows _DiagnosticWindow;
+
+        /// <summary>
+        /// Enables system profiling against a profile server
+        /// </summary>
+        public Boolean EnableSystemProfiling = false;
+        
+        /// <summary>
+        /// Contains the profile url for System profiling
+        /// </summary>
+        public Uri SystemProfileUrl;
 
         /// <summary>
         /// This event will be raised when a check loop will be started
@@ -167,7 +180,100 @@ namespace AppLimit.NetSparkle
         public void Dispose()
         {
             StopLoop();
-        }        
+        }
+
+        /// <summary>
+        /// This method updates the profile information which can be sended to the server if enabled    
+        /// </summary>
+        /// <param name="config"></param>
+        public void UpdateSystemProfileInformation(NetSparkleConfiguration config)
+        {
+            // check if profile data is enabled
+            if (!EnableSystemProfiling)
+                return;
+
+            // check if we need an update
+            if (DateTime.Now  - config.LastProfileUpdate < new TimeSpan(7, 0, 0, 0))
+                return;
+                
+            // touch the profile update time
+            config.TouchProfileTime();
+
+            // start the profile thread
+            Thread t = new Thread(ProfileDataThreadStart);
+            t.Start(config);            
+        }
+
+        /// <summary>
+        /// Profile data thread
+        /// </summary>
+        /// <param name="obj"></param>
+        private void ProfileDataThreadStart(object obj)
+        {
+            // get the config
+            NetSparkleConfiguration config = obj as NetSparkleConfiguration;
+
+            // build the webrequest url
+            String requestUrl = SystemProfileUrl.ToString() + "?";
+
+            // collect data
+             
+            // Windows version
+            
+            // CPU type/subtype (see mach/machine.h for decoder information on this data)
+    
+            // Mac model
+            
+            // Number of CPUs (or CPU cores, in the case of something like a Core Duo)
+            
+            // 32-bit vs. 64-bit      
+            if (Marshal.SizeOf(typeof(IntPtr)) == 8)
+                requestUrl += "cpu64bit=1&";
+            else
+                requestUrl += "cpu64bit=0&";
+
+            // CPU speed
+            ManagementObject Mo = new ManagementObject("Win32_Processor.DeviceID='CPU0'");
+            uint sp = (uint)(Mo["CurrentClockSpeed"]);
+            Mo.Dispose();
+            
+            requestUrl += "cpuFreqMHz=" + sp + "&";
+             
+            // RAM size
+            ManagementScope oMs = new ManagementScope();
+            ObjectQuery oQuery = new ObjectQuery("SELECT Capacity FROM Win32_PhysicalMemory");
+            ManagementObjectSearcher oSearcher = new ManagementObjectSearcher(oMs, oQuery);
+            ManagementObjectCollection oCollection = oSearcher.Get();
+
+            Int64 MemSize = 0;
+            Int64 mCap = 0;
+
+            // In case more than one Memory sticks are installed
+            foreach (ManagementObject mobj in oCollection)
+            {
+                mCap = Convert.ToInt64(mobj["Capacity"]);
+                MemSize += mCap;
+            }
+            MemSize = (MemSize / 1024) / 1024;
+
+            requestUrl += "ramMB=" + MemSize + "&";                       
+
+            // Application name (as indicated by CFBundleName)
+            requestUrl += "appName=" + config.ApplicationName + "&";
+
+            // Application version (as indicated by CFBundleVersion)
+            requestUrl += "appVersion=" + config.InstalledVersion + "&";
+
+            // User’s preferred language
+            requestUrl += "lang=" + Thread.CurrentThread.CurrentUICulture.ToString() + "&";
+
+            // sanitize url
+            requestUrl = requestUrl.TrimEnd('&');            
+
+            // perform the webrequest
+            WebRequest request = HttpWebRequest.Create(requestUrl);
+            request.GetResponse();
+        }
 
         /// <summary>
         /// This method checks if an update is required. During this process the appcast
@@ -195,7 +301,7 @@ namespace AppLimit.NetSparkle
 
             // set the last check time
             ReportDiagnosticMessage("Touch the last check timestamp");
-            config.TouchCheckTime();
+            config.TouchCheckTime();            
                 
             // check if the available update has to be skipped
             if (latestVersion.Version.Equals(config.SkipThisVersion))
@@ -340,7 +446,10 @@ namespace AppLimit.NetSparkle
 
                 // update the runonce feature
                 goIntoLoop = !config.DidRunOnce;
-                                
+                
+                // update profile information is needed
+                UpdateSystemProfileInformation(config);
+                
                 // check if update is required
                 NetSparkleAppCastItem latestVersion = null;
                 bUpdateRequired = IsUpdateRequired(config, out latestVersion);
