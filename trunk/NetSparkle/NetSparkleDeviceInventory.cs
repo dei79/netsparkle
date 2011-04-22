@@ -56,12 +56,16 @@ namespace AppLimit.NetSparkle
             retValue += "lang=" + Thread.CurrentThread.CurrentUICulture.ToString() + "&";
 
             // Windows version
+            // ### TODO ###
 
             // CPU type/subtype (see mach/machine.h for decoder information on this data)
+            // ### TODO ###
 
             // Mac model
+            // ### TODO ###
 
             // Number of CPUs (or CPU cores, in the case of something like a Core Duo)
+            // ### TODO ###
 
             // sanitize url
             retValue = retValue.TrimEnd('&');            

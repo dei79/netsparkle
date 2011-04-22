@@ -224,8 +224,12 @@ namespace AppLimit.NetSparkle
             requestUrl = inv.BuildRequestUrl(requestUrl);
                                                                                        
             // perform the webrequest
-            WebRequest request = HttpWebRequest.Create(requestUrl);
-            request.GetResponse();
+            HttpWebRequest request = HttpWebRequest.Create(requestUrl) as HttpWebRequest;
+            using (WebResponse response = request.GetResponse())
+            {
+                // close the response 
+                response.Close();
+            }
         }
 
         /// <summary>
