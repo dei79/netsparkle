@@ -98,6 +98,9 @@
     <EmbeddedResource Include="NetSparkleDownloadProgress.resx">
       <DependentUpon>NetSparkleDownloadProgress.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NetSparkleDownloadProgress.ru.resx">
+      <DependentUpon>NetSparkleDownloadProgress.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NetSparkleForm.bg.resx">
       <DependentUpon>NetSparkleForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -111,6 +114,9 @@
       <DependentUpon>NetSparkleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NetSparkleForm.resx">
+      <DependentUpon>NetSparkleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NetSparkleForm.ru.resx">
       <DependentUpon>NetSparkleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NetSparkleMainWindows.resx">
