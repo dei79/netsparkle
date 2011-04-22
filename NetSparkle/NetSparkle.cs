@@ -217,59 +217,12 @@ namespace AppLimit.NetSparkle
             String requestUrl = SystemProfileUrl.ToString() + "?";
 
             // collect data
-             
-            // Windows version
-            
-            // CPU type/subtype (see mach/machine.h for decoder information on this data)
-    
-            // Mac model
-            
-            // Number of CPUs (or CPU cores, in the case of something like a Core Duo)
-            
-            // 32-bit vs. 64-bit      
-            if (Marshal.SizeOf(typeof(IntPtr)) == 8)
-                requestUrl += "cpu64bit=1&";
-            else
-                requestUrl += "cpu64bit=0&";
+            NetSparkleDeviceInventory inv = new NetSparkleDeviceInventory(config);
+            inv.CollectInventory();
 
-            // CPU speed
-            ManagementObject Mo = new ManagementObject("Win32_Processor.DeviceID='CPU0'");
-            uint sp = (uint)(Mo["CurrentClockSpeed"]);
-            Mo.Dispose();
-            
-            requestUrl += "cpuFreqMHz=" + sp + "&";
-             
-            // RAM size
-            ManagementScope oMs = new ManagementScope();
-            ObjectQuery oQuery = new ObjectQuery("SELECT Capacity FROM Win32_PhysicalMemory");
-            ManagementObjectSearcher oSearcher = new ManagementObjectSearcher(oMs, oQuery);
-            ManagementObjectCollection oCollection = oSearcher.Get();
-
-            Int64 MemSize = 0;
-            Int64 mCap = 0;
-
-            // In case more than one Memory sticks are installed
-            foreach (ManagementObject mobj in oCollection)
-            {
-                mCap = Convert.ToInt64(mobj["Capacity"]);
-                MemSize += mCap;
-            }
-            MemSize = (MemSize / 1024) / 1024;
-
-            requestUrl += "ramMB=" + MemSize + "&";                       
-
-            // Application name (as indicated by CFBundleName)
-            requestUrl += "appName=" + config.ApplicationName + "&";
-
-            // Application version (as indicated by CFBundleVersion)
-            requestUrl += "appVersion=" + config.InstalledVersion + "&";
-
-            // User’s preferred language
-            requestUrl += "lang=" + Thread.CurrentThread.CurrentUICulture.ToString() + "&";
-
-            // sanitize url
-            requestUrl = requestUrl.TrimEnd('&');            
-
+            // build url
+            requestUrl = inv.BuildRequestUrl(requestUrl);
+                                                                                       
             // perform the webrequest
             WebRequest request = HttpWebRequest.Create(requestUrl);
             request.GetResponse();
