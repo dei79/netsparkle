@@ -84,6 +84,7 @@
     <Compile Include="NetSparkleAppCast.cs" />
     <Compile Include="NetSparkleAssemblyAccessor.cs" />
     <Compile Include="NetSparkleConfiguration.cs" />
+    <Compile Include="NetSparkleDeviceInventory.cs" />
     <Compile Include="NetSparkleDownloadProgress.cs">
       <SubType>Form</SubType>
     </Compile>
