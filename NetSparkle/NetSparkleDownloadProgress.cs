@@ -85,15 +85,19 @@ namespace AppLimit.NetSparkle
             _sparkle.ReportDiagnosticMessage("Performing DSA check");
 
             // get the assembly
-            if (File.Exists(_referencedAssembly))
+            if (File.Exists(_tempName))
             {
-                String absolutePath = Path.GetFullPath(_referencedAssembly);
+                // check if the file was downloaded successfully
+                String absolutePath = Path.GetFullPath(_tempName);
                 if (!File.Exists(absolutePath))
                     throw new FileNotFoundException();
 
-                Assembly refassembly = Assembly.LoadFile(absolutePath);
+                // get the assembly reference from which we start the update progress
+                // only from this trusted assembly the public key can be used
+                Assembly refassembly = System.Reflection.Assembly.GetEntryAssembly();
                 if (refassembly != null)
                 {
+                    // Check if we found the public key in our entry assembly
                     if (NetSparkleDSAVerificator.ExistsPublicKey(refassembly.GetName().Name + ".NetSparkle_DSA.pub"))
                     {
                         // check the DSA Code and modify the back color            
