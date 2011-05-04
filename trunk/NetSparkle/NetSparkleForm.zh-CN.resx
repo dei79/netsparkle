@@ -122,10 +122,10 @@
     <value>191, 17</value>
   </data>
   <data name="lblHeader.Text" xml:space="preserve">
-    <value>发现新版本!</value>
+    <value>发现APP的新版本!</value>
   </data>
   <data name="lblInfoText.Text" xml:space="preserve">
-    <value>发现可用的新版本(您现在使用的是旧版本)，是否立即下载新版本？</value>
+    <value>APP是可用的新版本(您使用的是OLDVERSION)，是否立即下载新版本？</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 17</value>
