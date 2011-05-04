@@ -122,7 +122,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblHeader.Text" xml:space="preserve">
-    <value>正在下载应用程序...</value>
+    <value>正在下载APP</value>
   </data>
   <data name="progressDownload.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
