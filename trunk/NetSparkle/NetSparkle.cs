@@ -30,6 +30,8 @@ namespace AppLimit.NetSparkle
 
         private NetSparkleMainWindows _DiagnosticWindow;
 
+        private TimeSpan _CheckFrequency;
+
         /// <summary>
         /// Enables system profiling against a profile server
         /// </summary>
@@ -144,8 +146,35 @@ namespace AppLimit.NetSparkle
         /// shows its main window.
         /// </summary>
         /// <param name="doInitialCheck"></param>
+        /// <param name="checkFrequency"></param>
+        public void StartLoop(Boolean doInitialCheck, TimeSpan checkFrequency)
+        {
+          StartLoop(doInitialCheck, false, checkFrequency);
+        }
+
+        /// <summary>
+        /// The method starts a NetSparkle background loop
+        /// If NetSparkle is configured to check for updates on startup, proceeds to perform 
+        /// the check. You should only call this function when your app is initialized and 
+        /// shows its main window.
+        /// </summary>
+        /// <param name="doInitialCheck"></param>
         /// <param name="forceInitialCheck"></param>
         public void StartLoop(Boolean doInitialCheck, Boolean forceInitialCheck)
+        {
+          StartLoop(doInitialCheck, forceInitialCheck, TimeSpan.FromHours(24));
+        }
+
+        /// <summary>
+        /// The method starts a NetSparkle background loop
+        /// If NetSparkle is configured to check for updates on startup, proceeds to perform 
+        /// the check. You should only call this function when your app is initialized and 
+        /// shows its main window.
+        /// </summary>
+        /// <param name="doInitialCheck"></param>
+        /// <param name="forceInitialCheck"></param>
+        /// <param name="checkFrequency"></param>
+        public void StartLoop(Boolean doInitialCheck, Boolean forceInitialCheck, TimeSpan checkFrequency)
         {
             // Start the helper thread as a background worker to 
             // get well ui interaction                        
@@ -156,6 +185,7 @@ namespace AppLimit.NetSparkle
             // store infos
             _DoInitialCheck     = doInitialCheck;
             _ForceInitialCheck  = forceInitialCheck;
+            _CheckFrequency     = checkFrequency;
 
             // create and configure the worker
             _DiagnosticWindow.Report("Starting background worker");            
@@ -341,9 +371,6 @@ namespace AppLimit.NetSparkle
         /// <param name="e"></param>
         void _worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            // build a 24 houres timespan
-            TimeSpan tsp = new TimeSpan(24,0,0);            
-
             // store the did run once feature
             Boolean goIntoLoop = true;
             Boolean checkTSP = true;
@@ -385,9 +412,9 @@ namespace AppLimit.NetSparkle
                 if (checkTSPInternal)
                 {                              
                     TimeSpan csp = DateTime.Now - config.LastCheckTime;
-                    if (csp < tsp )
+                    if (csp < _CheckFrequency )
                     {
-                        ReportDiagnosticMessage("Update check performed within the last 24 houres!");
+                        ReportDiagnosticMessage(String.Format("Update check performed within the last {0} minutes!", _CheckFrequency.TotalMinutes));
                         goto WaitSection;
                     }
                 }
@@ -426,7 +453,7 @@ namespace AppLimit.NetSparkle
                     checkLoopFinished(this, bUpdateRequired);
 
                 // report wait statement
-                ReportDiagnosticMessage("Sleeping for an other 24 houres, exit event or force update check event");
+                ReportDiagnosticMessage(String.Format("Sleeping for an other {0} minutes, exit event or force update check event", _CheckFrequency.TotalMinutes));
 
                 // wait for
                 if (!goIntoLoop)
@@ -438,10 +465,10 @@ namespace AppLimit.NetSparkle
                     handles[0] = _exitHandle;
                                         
                     // wait for any
-                    int i = WaitHandle.WaitAny(handles, tsp);
+                    int i = WaitHandle.WaitAny(handles, _CheckFrequency);
                     if (WaitHandle.WaitTimeout == i)
                     {
-                        ReportDiagnosticMessage("24 houres are over");
+                        ReportDiagnosticMessage(String.Format("{0} minutes are over", _CheckFrequency.TotalMinutes));
                         continue;
                     }
 
