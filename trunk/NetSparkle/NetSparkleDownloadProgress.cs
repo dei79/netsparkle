@@ -20,8 +20,9 @@ namespace AppLimit.NetSparkle
         private NetSparkleAppCastItem _item;
         private String _referencedAssembly;
         private Sparkle _sparkle;
+        private Boolean _unattend;
 
-        public NetSparkleDownloadProgress(Sparkle sparkle, NetSparkleAppCastItem item, String referencedAssembly, Image appIcon, Icon windowIcon)
+        public NetSparkleDownloadProgress(Sparkle sparkle, NetSparkleAppCastItem item, String referencedAssembly, Image appIcon, Icon windowIcon, Boolean Unattend)
         {
             InitializeComponent();
 
@@ -35,6 +36,7 @@ namespace AppLimit.NetSparkle
             _sparkle = sparkle;
             _item = item;
             _referencedAssembly = referencedAssembly;
+            _unattend = Unattend;
 
             // init ui
             btnInstallAndReLaunch.Visible = false;
@@ -112,7 +114,11 @@ namespace AppLimit.NetSparkle
                 Size = new Size(Size.Width, 137);
                 lblSecurityHint.Visible = true;
                 BackColor = Color.Tomato;
-            }                                   
+            }       
+            
+            // Check the unattended mode
+            if (_unattend)
+                btnInstallAndReLaunch_Click(null, null);
         }
                
         private void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
