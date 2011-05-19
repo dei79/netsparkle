@@ -71,6 +71,12 @@ namespace AppLimit.NetSparkle
         public Boolean ShowDiagnosticWindow { get; set; }
 
         /// <summary>
+        /// This property enables the silent mode, this means 
+        /// the application will be updated without user interaction
+        /// </summary>
+        public Boolean EnableSilentMode { get; set; }
+
+        /// <summary>
         /// ctor which needs the appcast url
         /// </summary>
         /// <param name="appcastUrl"></param>
@@ -504,8 +510,11 @@ namespace AppLimit.NetSparkle
                         // get the current item
                         NetSparkleAppCastItem currentItem = e.UserState as NetSparkleAppCastItem;
 
-                        // show the updaze ui
-                        ShowUpdateNeededUI(currentItem);
+                        // show the update ui
+                        if ( EnableSilentMode == true )
+                            InitDownloadAndInstallProcess(currentItem);
+                        else
+                            ShowUpdateNeededUI(currentItem);
 
                         break;
                     }
@@ -519,7 +528,7 @@ namespace AppLimit.NetSparkle
         
         private void InitDownloadAndInstallProcess(NetSparkleAppCastItem item)
         {
-            NetSparkleDownloadProgress dlProgress = new NetSparkleDownloadProgress(this, item, _AppReferenceAssembly, ApplicationIcon, ApplicationWindowIcon);
+            NetSparkleDownloadProgress dlProgress = new NetSparkleDownloadProgress(this, item, _AppReferenceAssembly, ApplicationIcon, ApplicationWindowIcon, EnableSilentMode);
             dlProgress.ShowDialog();
         }        
 
