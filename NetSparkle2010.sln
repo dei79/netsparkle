@@ -12,6 +12,27 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetSparkleTestApp", "NetSparkleTestApp\NetSparkleTestApp.csproj", "{5D5F4532-9CA6-4380-818D-A8FAC21450D1}"
 EndProject
 Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = NetSparkleChecker\\NetSparkleChecker2010.csproj
+		SccProjectName1 = NetSparkleChecker
+		SccLocalPath1 = NetSparkleChecker
+		SccProjectUniqueName2 = NetSparkle\\NetSparkle2010.csproj
+		SccProjectName2 = NetSparkle
+		SccLocalPath2 = NetSparkle
+		SccProjectUniqueName3 = NetSparkleDSAHelper\\NetSparkleDSAHelper.csproj
+		SccProjectName3 = NetSparkleDSAHelper
+		SccLocalPath3 = NetSparkleDSAHelper
+		SccProjectUniqueName4 = NetSparkleTestApp\\NetSparkleTestApp.csproj
+		SccProjectName4 = NetSparkleTestApp
+		SccLocalPath4 = NetSparkleTestApp
+		SccProjectUniqueName5 = NetSparkleTestAppWPF\\NetSparkleTestAppWPF.csproj
+		SccProjectName5 = NetSparkleTestAppWPF
+		SccLocalPath5 = NetSparkleTestAppWPF
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
