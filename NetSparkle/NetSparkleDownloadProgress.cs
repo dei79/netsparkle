@@ -134,24 +134,19 @@ namespace AppLimit.NetSparkle
             String workingDir = Environment.CurrentDirectory;
 
             // generate the batch file path
-            String cmd = "";
+            String cmd = Environment.ExpandEnvironmentVariables("%temp%\\" + Guid.NewGuid() + ".cmd");
+            String installerCMD;
 
             // get the file type
             if (Path.GetExtension(_tempName).ToLower().Equals(".exe"))
             {
-                cmd = _tempName;
+                // build the command line 
+                installerCMD = _tempName;
             }
             else if (Path.GetExtension(_tempName).ToLower().Equals(".msi"))
-            {
-                // build up the command line
-                cmd = Environment.ExpandEnvironmentVariables("%temp%\\" + Guid.NewGuid() + ".cmd");
-
-                // generate the batch file
-                StreamWriter write = new StreamWriter(cmd);                
-                write.WriteLine("msiexec /i \"" + _tempName + "\"");
-                write.WriteLine("cd " + workingDir);
-                write.WriteLine(cmdLine);
-                write.Close();
+            {                
+                // buid the command line
+                installerCMD = "msiexec /i \"" + _tempName + "\"";                
             }
             else
             {
@@ -159,6 +154,15 @@ namespace AppLimit.NetSparkle
                 Environment.Exit(-1);
                 return;
             }
+
+            // generate the batch file                
+            _sparkle.ReportDiagnosticMessage("Generating MSI batch in " + Path.GetFullPath(cmd));
+
+            StreamWriter write = new StreamWriter(cmd);
+            write.WriteLine(installerCMD);
+            write.WriteLine("cd " + workingDir);
+            write.WriteLine(cmdLine);
+            write.Close();
 
             // report
             _sparkle.ReportDiagnosticMessage("Going to execute batch: " + cmd);
