@@ -74,47 +74,48 @@ namespace AppLimit.NetSparkle
             // report message            
             _sparkle.ReportDiagnosticMessage("Finished downloading file to: " + _tempName);
 
-            // check if we have a dsa signature in appcast
+            // check if we have a dsa signature in appcast            
             if (_item.DSASignature == null || _item.DSASignature.Length == 0)
             {
                 _sparkle.ReportDiagnosticMessage("No DSA check needed");
-                return;
             }
-
-            Boolean bDSAOk = false;
-            
-            // report
-            _sparkle.ReportDiagnosticMessage("Performing DSA check");
-
-            // get the assembly
-            if (File.Exists(_tempName))
+            else
             {
-                // check if the file was downloaded successfully
-                String absolutePath = Path.GetFullPath(_tempName);
-                if (!File.Exists(absolutePath))
-                    throw new FileNotFoundException();
+                Boolean bDSAOk = false;
 
-                // get the assembly reference from which we start the update progress
-                // only from this trusted assembly the public key can be used
-                Assembly refassembly = System.Reflection.Assembly.GetEntryAssembly();
-                if (refassembly != null)
+                // report
+                _sparkle.ReportDiagnosticMessage("Performing DSA check");
+
+                // get the assembly
+                if (File.Exists(_tempName))
                 {
-                    // Check if we found the public key in our entry assembly
-                    if (NetSparkleDSAVerificator.ExistsPublicKey(refassembly.GetName().Name + ".NetSparkle_DSA.pub"))
+                    // check if the file was downloaded successfully
+                    String absolutePath = Path.GetFullPath(_tempName);
+                    if (!File.Exists(absolutePath))
+                        throw new FileNotFoundException();
+
+                    // get the assembly reference from which we start the update progress
+                    // only from this trusted assembly the public key can be used
+                    Assembly refassembly = System.Reflection.Assembly.GetEntryAssembly();
+                    if (refassembly != null)
                     {
-                        // check the DSA Code and modify the back color            
-                        NetSparkleDSAVerificator dsaVerifier = new NetSparkleDSAVerificator(refassembly.GetName().Name + ".NetSparkle_DSA.pub");
-                        bDSAOk = dsaVerifier.VerifyDSASignature(_item.DSASignature, _tempName);
+                        // Check if we found the public key in our entry assembly
+                        if (NetSparkleDSAVerificator.ExistsPublicKey(refassembly.GetName().Name + ".NetSparkle_DSA.pub"))
+                        {
+                            // check the DSA Code and modify the back color            
+                            NetSparkleDSAVerificator dsaVerifier = new NetSparkleDSAVerificator(refassembly.GetName().Name + ".NetSparkle_DSA.pub");
+                            bDSAOk = dsaVerifier.VerifyDSASignature(_item.DSASignature, _tempName);
+                        }
                     }
                 }
-            }
 
-            if ( !bDSAOk )
-            {
-                Size = new Size(Size.Width, 137);
-                lblSecurityHint.Visible = true;
-                BackColor = Color.Tomato;
-            }       
+                if (!bDSAOk)
+                {
+                    Size = new Size(Size.Width, 137);
+                    lblSecurityHint.Visible = true;
+                    BackColor = Color.Tomato;
+                }
+            }
             
             // Check the unattended mode
             if (_unattend)
