@@ -130,14 +130,8 @@
   <data name="updateButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>93, 23</value>
   </data>
-  <data name="buttonRemind.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 23</value>
-  </data>
   <data name="lblInfoText.Location" type="System.Drawing.Point, System.Drawing">
     <value>66, 39</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Release notes:</value>
   </data>
   <data name="buttonRemind.Location" type="System.Drawing.Point, System.Drawing">
     <value>270, 387</value>
@@ -148,8 +142,8 @@
   <data name="imgAppIcon.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 48</value>
   </data>
-  <data name="&gt;&gt;lblInfoText.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;lblHeader.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;imgAppIcon.ZOrder" xml:space="preserve">
     <value>7</value>
@@ -160,18 +154,15 @@
   <data name="skipButton.Text" xml:space="preserve">
     <value>Skip this version</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="imgAppIcon.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>NetSparkleForm</value>
   </data>
   <data name="&gt;&gt;updateButton.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="updateButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
   </data>
   <data name="&gt;&gt;skipButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -179,7 +170,6 @@
   <data name="&gt;&gt;updateButton.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="skipButton.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
@@ -189,11 +179,15 @@
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;lblHeader.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="updateButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;buttonRemind.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
@@ -246,11 +240,23 @@
   <data name="updateButton.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
+  <data name="&gt;&gt;lblInfoText.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;lblInfoText.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="updateButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>369, 387</value>
+  </data>
   <data name="&gt;&gt;lblHeader.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
   <data name="&gt;&gt;NetSparkleBrowser.Type" xml:space="preserve">
     <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 17</value>
   </data>
   <data name="buttonRemind.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -285,11 +291,50 @@
   <data name="lblHeader.Size" type="System.Drawing.Size, System.Drawing">
     <value>218, 17</value>
   </data>
-  <data name="&gt;&gt;lblInfoText.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Release notes:</value>
   </data>
   <data name="&gt;&gt;lblInfoText.Name" xml:space="preserve">
     <value>lblInfoText</value>
+  </data>
+  <data name="NetSparkleBrowser.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="skipButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 23</value>
+  </data>
+  <data name="lblHeader.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblInfoText.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;imgAppIcon.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="NetSparkleBrowser.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="lblInfoText.Size" type="System.Drawing.Size, System.Drawing">
+    <value>396, 38</value>
+  </data>
+  <data name="&gt;&gt;updateButton.Name" xml:space="preserve">
+    <value>updateButton</value>
+  </data>
+  <data name="$this.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>490, 460</value>
+  </data>
+  <data name="&gt;&gt;buttonRemind.Name" xml:space="preserve">
+    <value>buttonRemind</value>
+  </data>
+  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -476,68 +521,26 @@
         /////wAA
 </value>
   </data>
-  <data name="NetSparkleBrowser.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="skipButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 23</value>
-  </data>
-  <data name="lblHeader.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblInfoText.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;imgAppIcon.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="NetSparkleBrowser.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="lblInfoText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>396, 38</value>
-  </data>
-  <data name="&gt;&gt;updateButton.Name" xml:space="preserve">
-    <value>updateButton</value>
-  </data>
-  <data name="$this.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>490, 460</value>
-  </data>
-  <data name="&gt;&gt;buttonRemind.Name" xml:space="preserve">
-    <value>buttonRemind</value>
-  </data>
-  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="updateButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>369, 387</value>
-  </data>
   <data name="&gt;&gt;imgAppIcon.Type" xml:space="preserve">
     <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="NetSparkleBrowser.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="&gt;&gt;NetSparkleBrowser.Name" xml:space="preserve">
-    <value>NetSparkleBrowser</value>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Software Update</value>
   </data>
-  <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+  <data name="imgAppIcon.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
   </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 17</value>
+  <data name="skipButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>69, 387</value>
   </data>
   <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -560,9 +563,6 @@
   <data name="skipButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="skipButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>69, 387</value>
-  </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>474, 422</value>
   </data>
@@ -572,14 +572,14 @@
   <data name="&gt;&gt;lblHeader.Name" xml:space="preserve">
     <value>lblHeader</value>
   </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="&gt;&gt;NetSparkleBrowser.Name" xml:space="preserve">
+    <value>NetSparkleBrowser</value>
   </data>
   <data name="&gt;&gt;imgAppIcon.Name" xml:space="preserve">
     <value>imgAppIcon</value>
   </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="buttonRemind.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 23</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
