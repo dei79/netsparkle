@@ -14,7 +14,7 @@ namespace NetSparkleTestApp
         [STAThread]
         static void Main()
         {
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-CN");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-TW");
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
