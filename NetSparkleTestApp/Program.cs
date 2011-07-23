@@ -20,7 +20,8 @@ namespace NetSparkleTestApp
 
             // set the lang of your choice
             // Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-TW");
-            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+            // Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-MX");
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
