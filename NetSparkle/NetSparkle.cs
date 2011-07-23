@@ -246,25 +246,32 @@ namespace AppLimit.NetSparkle
         /// <param name="obj"></param>
         private void ProfileDataThreadStart(object obj)
         {
-            // get the config
-            NetSparkleConfiguration config = obj as NetSparkleConfiguration;
-
-            // build the webrequest url
-            String requestUrl = SystemProfileUrl.ToString() + "?";
-
-            // collect data
-            NetSparkleDeviceInventory inv = new NetSparkleDeviceInventory(config);
-            inv.CollectInventory();
-
-            // build url
-            requestUrl = inv.BuildRequestUrl(requestUrl);
-                                                                                       
-            // perform the webrequest
-            HttpWebRequest request = HttpWebRequest.Create(requestUrl) as HttpWebRequest;
-            using (WebResponse response = request.GetResponse())
+            try
             {
-                // close the response 
-                response.Close();
+                // get the config
+                NetSparkleConfiguration config = obj as NetSparkleConfiguration;
+
+                // build the webrequest url
+                String requestUrl = SystemProfileUrl.ToString() + "?";
+
+                // collect data
+                NetSparkleDeviceInventory inv = new NetSparkleDeviceInventory(config);
+                inv.CollectInventory();
+
+                // build url
+                requestUrl = inv.BuildRequestUrl(requestUrl);
+
+                // perform the webrequest
+                HttpWebRequest request = HttpWebRequest.Create(requestUrl) as HttpWebRequest;
+                using (WebResponse response = request.GetResponse())
+                {
+                    // close the response 
+                    response.Close();
+                }
+            }
+            catch (Exception)
+            { 
+                // No exception during data send 
             }
         }
 
