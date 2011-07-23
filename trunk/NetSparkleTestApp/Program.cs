@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Threading;
 using System.Globalization;
+using Microsoft.Win32;
 namespace NetSparkleTestApp
 {
     static class Program
@@ -14,7 +15,12 @@ namespace NetSparkleTestApp
         [STAThread]
         static void Main()
         {
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-TW");
+            // remove the netsparkle key from registry 
+            Registry.CurrentUser.DeleteSubKeyTree("Software\\Microsoft\\NetSparkleTestApp");
+
+            // set the lang of your choice
+            // Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-TW");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
