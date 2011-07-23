@@ -219,6 +219,9 @@
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="skipButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
   <data name="skipButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -245,6 +248,9 @@
   </data>
   <data name="&gt;&gt;skipButton.ZOrder" xml:space="preserve">
     <value>3</value>
+  </data>
+  <data name="buttonRemind.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
   </data>
   <data name="buttonRemind.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -273,6 +279,9 @@
   <data name="&gt;&gt;buttonRemind.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="updateButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
   <data name="updateButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -299,6 +308,18 @@
   </data>
   <data name="&gt;&gt;updateButton.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="NetSparkleBrowser.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="NetSparkleBrowser.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="NetSparkleBrowser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>389, 280</value>
+  </data>
+  <data name="NetSparkleBrowser.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;NetSparkleBrowser.Name" xml:space="preserve">
     <value>NetSparkleBrowser</value>
@@ -331,30 +352,6 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="NetSparkleBrowser.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="NetSparkleBrowser.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="NetSparkleBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>389, 280</value>
-  </data>
-  <data name="NetSparkleBrowser.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;NetSparkleBrowser.Name" xml:space="preserve">
-    <value>NetSparkleBrowser</value>
-  </data>
-  <data name="&gt;&gt;NetSparkleBrowser.Type" xml:space="preserve">
-    <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;NetSparkleBrowser.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;NetSparkleBrowser.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="imgAppIcon.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
@@ -391,7 +388,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>474, 422</value>
+    <value>484, 432</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
