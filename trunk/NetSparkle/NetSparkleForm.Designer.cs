@@ -80,9 +80,9 @@
             // 
             // panel1
             // 
-            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.NetSparkleBrowser);
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
             // NetSparkleBrowser
@@ -94,8 +94,8 @@
             // 
             // imgAppIcon
             // 
-            resources.ApplyResources(this.imgAppIcon, "imgAppIcon");
             this.imgAppIcon.Image = global::AppLimit.NetSparkle.Properties.Resources.software_update_available1;
+            resources.ApplyResources(this.imgAppIcon, "imgAppIcon");
             this.imgAppIcon.Name = "imgAppIcon";
             this.imgAppIcon.TabStop = false;
             // 
@@ -111,6 +111,7 @@
             this.Controls.Add(this.lblInfoText);
             this.Controls.Add(this.lblHeader);
             this.Controls.Add(this.imgAppIcon);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "NetSparkleForm";
             this.ShowInTaskbar = false;
             this.panel1.ResumeLayout(false);
