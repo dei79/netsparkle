@@ -21,6 +21,7 @@ namespace NetSparkleTestApp
             _sparkle = new Sparkle("http://update.applimit.com/netsparkle/versioninfo.xml") { ShowDiagnosticWindow = true, EnableSystemProfiling = true, SystemProfileUrl = new Uri("http://update.applimit.com/netsparkle/stat/profileInfo.php") };
             
             // _sparkle.EnableSilentMode = true;
+            // _sparkle.HideReleaseNotes = true;
 
             _sparkle.StartLoop(true);    
         }

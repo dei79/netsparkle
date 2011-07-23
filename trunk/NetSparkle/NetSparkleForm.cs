@@ -33,21 +33,35 @@ namespace AppLimit.NetSparkle
             lblInfoText.Text = lblInfoText.Text.Replace("APP", item.AppName + " " + item.Version);
             lblInfoText.Text = lblInfoText.Text.Replace("OLDVERSION", item.AppVersionInstalled);
 
-            if (item.ReleaseNotesLink != null && item.ReleaseNotesLink.Length > 0)
+            if (item.ReleaseNotesLink != null && item.ReleaseNotesLink.Length > 0 )
                 NetSparkleBrowser.Navigate(item.ReleaseNotesLink);
-            else
-            {
-                NetSparkleBrowser.Navigate("about:blank");
-                HtmlDocument doc = NetSparkleBrowser.Document;
-                doc.Write(string.Empty);
-                NetSparkleBrowser.DocumentText = "<b>Currently no release notes available!</b>";
-            }
+            else            
+                RemoveReleaseNotesControls();            
 
             if (appIcon != null)
                 imgAppIcon.Image = appIcon;
 
             if (windowIcon != null)
                 Icon = windowIcon;
+        }
+
+        public void RemoveReleaseNotesControls()
+        {
+            if (label3.Parent == null)
+                return;
+
+            // calc new size
+            Size newSize = new Size(this.Size.Width, this.Size.Height - label3.Height - panel1.Height);
+
+            // remove the no more needed controls            
+            label3.Parent.Controls.Remove(label3);
+            NetSparkleBrowser.Parent.Controls.Remove(NetSparkleBrowser);
+            panel1.Parent.Controls.Remove(panel1);
+
+            // resize the window
+            this.MinimumSize = newSize;
+            this.Size = this.MinimumSize;
+            this.MaximumSize = this.MinimumSize;
         }
 
         private void skipButton_Click(object sender, EventArgs e)

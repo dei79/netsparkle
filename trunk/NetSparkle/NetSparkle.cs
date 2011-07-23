@@ -36,6 +36,13 @@ namespace AppLimit.NetSparkle
         /// Enables system profiling against a profile server
         /// </summary>
         public Boolean EnableSystemProfiling = false;
+
+        /// <summary>
+        /// Hides the release notes view when an update was found. This 
+        /// mode is switched on automatically when no sparkle:releaseNotesLink
+        /// tag was found in the app cast         
+        /// </summary>
+        public Boolean HideReleaseNotes = false;
         
         /// <summary>
         /// Contains the profile url for System profiling
@@ -344,8 +351,16 @@ namespace AppLimit.NetSparkle
         /// <param name="currentItem"></param>
         public void ShowUpdateNeededUI(NetSparkleAppCastItem currentItem)
         {
+            // create the form
             NetSparkleForm frm = new NetSparkleForm(currentItem, ApplicationIcon, ApplicationWindowIcon);
+
+            // configure the form
             frm.TopMost = true;
+
+            if (HideReleaseNotes)
+                frm.RemoveReleaseNotesControls();
+
+            // show it
             DialogResult dlgResult = frm.ShowDialog();
 
             if (dlgResult == DialogResult.No)
