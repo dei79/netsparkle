@@ -30,20 +30,19 @@ namespace NetSparkleTestAppWPF
             // remove the netsparkle key from registry 
             try
             {
-                Microsoft.Win32.Registry.CurrentUser.DeleteSubKeyTree("Software\\Microsoft\\NetSparkleTestApp");
+                Microsoft.Win32.Registry.CurrentUser.DeleteSubKeyTree("Software\\Microsoft\\NetSparkleTestAppWPF");
             }
             catch { }
 
-            _sparkle = new Sparkle("http://update.applimit.com/netsparkle/versioninfo.xml", "NetSparkleTestApp.exe");
+            _sparkle = new Sparkle("http://update.applimit.com/netsparkle/versioninfo.xml"); //, "NetSparkleTestApp.exe");
+            _sparkle.ShowDiagnosticWindow = true;
             _sparkle.StartLoop(true, true);
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            Form1 f = new Form1();
-            f.Show();
-
-
+            _sparkle.StopLoop();
+            Close();
         }
     }
 }
