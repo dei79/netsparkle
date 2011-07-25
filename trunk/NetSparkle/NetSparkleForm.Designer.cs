@@ -104,14 +104,16 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.updateButton);
             this.Controls.Add(this.buttonRemind);
             this.Controls.Add(this.skipButton);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.lblInfoText);
             this.Controls.Add(this.lblHeader);
             this.Controls.Add(this.imgAppIcon);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "NetSparkleForm";
             this.ShowInTaskbar = false;
             this.panel1.ResumeLayout(false);

@@ -140,7 +140,7 @@
     <value>Passer cette version</value>
   </data>
   <data name="buttonRemind.Location" type="System.Drawing.Point, System.Drawing">
-    <value>224, 387</value>
+    <value>224, 397</value>
   </data>
   <data name="buttonRemind.Size" type="System.Drawing.Size, System.Drawing">
     <value>116, 23</value>
@@ -149,7 +149,7 @@
     <value>Me rappeler plus tard</value>
   </data>
   <data name="updateButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>346, 387</value>
+    <value>346, 397</value>
   </data>
   <data name="updateButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>116, 23</value>
@@ -344,7 +344,7 @@
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
+    <value>NoControl</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Mise à jour de logiciels</value>

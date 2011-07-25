@@ -112,110 +112,35 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="lblHeader.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="lblHeader.Size" type="System.Drawing.Size, System.Drawing">
-    <value>257, 17</value>
+    <value>268, 17</value>
   </data>
   <data name="lblHeader.Text" xml:space="preserve">
     <value>Een nieuwe versie van APP is beschikbaar!</value>
   </data>
-  <data name="lblInfoText.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="lblInfoText.Text" xml:space="preserve">
     <value>APP is nu beschikbaar (huidige versie is OLDVERSION). Wilt u de nieuwste versie downloaden?</value>
   </data>
-  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>151, 17</value>
+    <value>176, 17</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Informatie nieuwste versie:</value>
   </data>
-  <data name="skipButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="skipButton.Text" xml:space="preserve">
     <value>Overslaan</value>
-  </data>
-  <data name="buttonRemind.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="buttonRemind.Text" xml:space="preserve">
     <value>Later herinneren</value>
   </data>
-  <data name="updateButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="updateButton.Text" xml:space="preserve">
     <value>Installeren</value>
-  </data>
-  <data name="imgAppIcon.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        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
-        91xf0HW6xPwLuS3n4DUYqscAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="imgAppIcon.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
