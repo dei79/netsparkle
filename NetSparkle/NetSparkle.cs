@@ -15,18 +15,18 @@ namespace AppLimit.NetSparkle
 {
     public delegate void LoopStartedOperation(Object sender);
     public delegate void LoopFinishedOperation(Object sender, Boolean UpdateRequired);
-    
+
     public class Sparkle : IDisposable
     {
         private BackgroundWorker _worker = new BackgroundWorker();
 
-        private String          _AppCastUrl;
-        private String          _AppReferenceAssembly;
+        private String _AppCastUrl;
+        private String _AppReferenceAssembly;
 
-        private Boolean         _DoInitialCheck;
-        private Boolean         _ForceInitialCheck;
+        private Boolean _DoInitialCheck;
+        private Boolean _ForceInitialCheck;
 
-        private EventWaitHandle _exitHandle;        
+        private EventWaitHandle _exitHandle;
 
         private NetSparkleMainWindows _DiagnosticWindow;
 
@@ -43,7 +43,7 @@ namespace AppLimit.NetSparkle
         /// tag was found in the app cast         
         /// </summary>
         public Boolean HideReleaseNotes = false;
-        
+
         /// <summary>
         /// Contains the profile url for System profiling
         /// </summary>
@@ -70,7 +70,7 @@ namespace AppLimit.NetSparkle
         /// This property returns an optional application icon 
         /// which will displayed in the windows as self
         /// </summary>
-        public Icon  ApplicationWindowIcon { get; set; }
+        public Icon ApplicationWindowIcon { get; set; }
 
         /// <summary>
         /// This property enables a diagnostic window for debug reasons
@@ -96,17 +96,17 @@ namespace AppLimit.NetSparkle
         /// </summary>
         public Sparkle(String appcastUrl, String referenceAssembly)
             : this(appcastUrl, referenceAssembly, false)
-        {}
+        { }
 
         /// <summary>
         /// ctor which needs the appcast url and a referenceassembly
         /// </summary>        
-        public Sparkle(String appcastUrl, String referenceAssembly, Boolean ShowDiagnostic )            
+        public Sparkle(String appcastUrl, String referenceAssembly, Boolean ShowDiagnostic)
         {
             // enable visual style to ensure that we have XP style or higher
             // also in WPF applications
             System.Windows.Forms.Application.EnableVisualStyles();
-            
+
             // reset vars
             ApplicationIcon = null;
             _AppReferenceAssembly = null;
@@ -119,14 +119,14 @@ namespace AppLimit.NetSparkle
 
             // show if needed
             ShowDiagnosticWindowIfNeeded();
-                       
+
             // adjust the delegates
             _worker.WorkerReportsProgress = true;
             _worker.DoWork += new DoWorkEventHandler(_worker_DoWork);
             _worker.ProgressChanged += new ProgressChangedEventHandler(_worker_ProgressChanged);
 
             // build the wait handle
-            _exitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);            
+            _exitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
 
             // set the url
             _AppCastUrl = appcastUrl;
@@ -139,7 +139,7 @@ namespace AppLimit.NetSparkle
                 _DiagnosticWindow.Report("Checking the following file: " + _AppReferenceAssembly);
             }
         }
-               
+
         /// <summary>
         /// The method starts a NetSparkle background loop
         /// If NetSparkle is configured to check for updates on startup, proceeds to perform 
@@ -148,7 +148,7 @@ namespace AppLimit.NetSparkle
         /// </summary>        
         /// <param name="doInitialCheck"></param>
         public void StartLoop(Boolean doInitialCheck)
-        {            
+        {
             StartLoop(doInitialCheck, false);
         }
 
@@ -162,7 +162,7 @@ namespace AppLimit.NetSparkle
         /// <param name="checkFrequency"></param>
         public void StartLoop(Boolean doInitialCheck, TimeSpan checkFrequency)
         {
-          StartLoop(doInitialCheck, false, checkFrequency);
+            StartLoop(doInitialCheck, false, checkFrequency);
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace AppLimit.NetSparkle
         /// <param name="forceInitialCheck"></param>
         public void StartLoop(Boolean doInitialCheck, Boolean forceInitialCheck)
         {
-          StartLoop(doInitialCheck, forceInitialCheck, TimeSpan.FromHours(24));
+            StartLoop(doInitialCheck, forceInitialCheck, TimeSpan.FromHours(24));
         }
 
         /// <summary>
@@ -196,13 +196,13 @@ namespace AppLimit.NetSparkle
             ShowDiagnosticWindowIfNeeded();
 
             // store infos
-            _DoInitialCheck     = doInitialCheck;
-            _ForceInitialCheck  = forceInitialCheck;
-            _CheckFrequency     = checkFrequency;
+            _DoInitialCheck = doInitialCheck;
+            _ForceInitialCheck = forceInitialCheck;
+            _CheckFrequency = checkFrequency;
 
             // create and configure the worker
-            _DiagnosticWindow.Report("Starting background worker");            
-            
+            _DiagnosticWindow.Report("Starting background worker");
+
             // start the work
             _worker.RunWorkerAsync();
         }
@@ -236,15 +236,15 @@ namespace AppLimit.NetSparkle
                 return;
 
             // check if we need an update
-            if (DateTime.Now  - config.LastProfileUpdate < new TimeSpan(7, 0, 0, 0))
+            if (DateTime.Now - config.LastProfileUpdate < new TimeSpan(7, 0, 0, 0))
                 return;
-                
+
             // touch the profile update time
             config.TouchProfileTime();
 
             // start the profile thread
             Thread t = new Thread(ProfileDataThreadStart);
-            t.Start(config);            
+            t.Start(config);
         }
 
         /// <summary>
@@ -255,30 +255,31 @@ namespace AppLimit.NetSparkle
         {
             try
             {
-                // get the config
-                NetSparkleConfiguration config = obj as NetSparkleConfiguration;
-
-                // build the webrequest url
-                String requestUrl = SystemProfileUrl.ToString() + "?";
-
-                // collect data
-                NetSparkleDeviceInventory inv = new NetSparkleDeviceInventory(config);
-                inv.CollectInventory();
-
-                // build url
-                requestUrl = inv.BuildRequestUrl(requestUrl);
-
-                // perform the webrequest
-                HttpWebRequest request = HttpWebRequest.Create(requestUrl) as HttpWebRequest;
-                using (WebResponse response = request.GetResponse())
+                if (SystemProfileUrl != null)
                 {
-                    // close the response 
-                    response.Close();
+                    // get the config
+                    NetSparkleConfiguration config = obj as NetSparkleConfiguration;
+
+                    // collect data
+                    NetSparkleDeviceInventory inv = new NetSparkleDeviceInventory(config);
+                    inv.CollectInventory();
+
+                    // build url
+                    String requestUrl = inv.BuildRequestUrl(SystemProfileUrl.ToString() + "?");
+
+                    // perform the webrequest
+                    HttpWebRequest request = HttpWebRequest.Create(requestUrl) as HttpWebRequest;
+                    using (WebResponse response = request.GetResponse())
+                    {
+                        // close the response 
+                        response.Close();
+                    }
                 }
             }
-            catch (Exception)
-            { 
+            catch (Exception ex)
+            {
                 // No exception during data send 
+                ReportDiagnosticMessage(ex.Message);
             }
         }
 
@@ -308,12 +309,12 @@ namespace AppLimit.NetSparkle
 
             // set the last check time
             ReportDiagnosticMessage("Touch the last check timestamp");
-            config.TouchCheckTime();            
-                
+            config.TouchCheckTime();
+
             // check if the available update has to be skipped
             if (latestVersion.Version.Equals(config.SkipThisVersion))
             {
-                ReportDiagnosticMessage("Latest update has to be skipped (user decided to skip version "+ config.SkipThisVersion +")");
+                ReportDiagnosticMessage("Latest update has to be skipped (user decided to skip version " + config.SkipThisVersion + ")");
                 return false;
             }
 
@@ -438,9 +439,9 @@ namespace AppLimit.NetSparkle
 
                 // check if it's ok the recheck to software state
                 if (checkTSPInternal)
-                {                              
+                {
                     TimeSpan csp = DateTime.Now - config.LastCheckTime;
-                    if (csp < _CheckFrequency )
+                    if (csp < _CheckFrequency)
                     {
                         ReportDiagnosticMessage(String.Format("Update check performed within the last {0} minutes!", _CheckFrequency.TotalMinutes));
                         goto WaitSection;
@@ -458,10 +459,10 @@ namespace AppLimit.NetSparkle
 
                 // update the runonce feature
                 goIntoLoop = !config.DidRunOnce;
-                
+
                 // update profile information is needed
                 UpdateSystemProfileInformation(config);
-                
+
                 // check if update is required
                 NetSparkleAppCastItem latestVersion = null;
                 bUpdateRequired = IsUpdateRequired(config, out latestVersion);
@@ -491,7 +492,7 @@ namespace AppLimit.NetSparkle
                     // build the event array
                     WaitHandle[] handles = new WaitHandle[1];
                     handles[0] = _exitHandle;
-                                        
+
                     // wait for any
                     int i = WaitHandle.WaitAny(handles, _CheckFrequency);
                     if (WaitHandle.WaitTimeout == i)
@@ -516,7 +517,7 @@ namespace AppLimit.NetSparkle
                     }
                 }
             } while (goIntoLoop);
-        }        
+        }
 
         /// <summary>
         /// This method will be notified
@@ -525,7 +526,7 @@ namespace AppLimit.NetSparkle
         /// <param name="e"></param>
         private void _worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            switch(e.ProgressPercentage)
+            switch (e.ProgressPercentage)
             {
                 case 1:
                     {
@@ -533,7 +534,7 @@ namespace AppLimit.NetSparkle
                         NetSparkleAppCastItem currentItem = e.UserState as NetSparkleAppCastItem;
 
                         // show the update ui
-                        if ( EnableSilentMode == true )
+                        if (EnableSilentMode == true)
                             InitDownloadAndInstallProcess(currentItem);
                         else
                             ShowUpdateNeededUI(currentItem);
@@ -545,14 +546,14 @@ namespace AppLimit.NetSparkle
                         ReportDiagnosticMessage(e.UserState.ToString());
                         break;
                     }
-            }                        
+            }
         }
-        
+
         private void InitDownloadAndInstallProcess(NetSparkleAppCastItem item)
         {
             NetSparkleDownloadProgress dlProgress = new NetSparkleDownloadProgress(this, item, _AppReferenceAssembly, ApplicationIcon, ApplicationWindowIcon, EnableSilentMode);
             dlProgress.ShowDialog();
-        }        
+        }
 
         private void ShowDiagnosticWindowIfNeeded()
         {
@@ -569,6 +570,6 @@ namespace AppLimit.NetSparkle
 
                 _DiagnosticWindow.Show();
             }
-        }        
+        }
     }
 }
