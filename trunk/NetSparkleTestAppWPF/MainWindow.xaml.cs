@@ -27,6 +27,13 @@ namespace NetSparkleTestAppWPF
         {           
             InitializeComponent();
 
+            // remove the netsparkle key from registry 
+            try
+            {
+                Microsoft.Win32.Registry.CurrentUser.DeleteSubKeyTree("Software\\Microsoft\\NetSparkleTestApp");
+            }
+            catch { }
+
             _sparkle = new Sparkle("http://update.applimit.com/netsparkle/versioninfo.xml", "NetSparkleTestApp.exe");
             _sparkle.StartLoop(true, true);
         }
