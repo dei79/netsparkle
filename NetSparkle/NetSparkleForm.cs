@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace AppLimit.NetSparkle
@@ -25,7 +20,6 @@ namespace AppLimit.NetSparkle
             }
             catch (Exception)
             { }
-
             
             _currentItem = item;
 
@@ -59,9 +53,10 @@ namespace AppLimit.NetSparkle
             panel1.Parent.Controls.Remove(panel1);
 
             // resize the window
-            this.MinimumSize = newSize;
+            /*this.MinimumSize = newSize;
             this.Size = this.MinimumSize;
-            this.MaximumSize = this.MinimumSize;
+            this.MaximumSize = this.MinimumSize;*/
+            this.Size = newSize;
         }
 
         private void skipButton_Click(object sender, EventArgs e)
@@ -88,7 +83,7 @@ namespace AppLimit.NetSparkle
             DialogResult = DialogResult.Yes;
 
             // close the dialog
-            Close();            
+            Close();
         }
     }
 }
