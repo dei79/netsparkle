@@ -40,7 +40,7 @@
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(335, 23);
+            this.label1.Size = new System.Drawing.Size(503, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "NetSparkle - Background Activity Monitor";
             // 
@@ -52,20 +52,21 @@
             this.lstActions.FormattingEnabled = true;
             this.lstActions.Location = new System.Drawing.Point(15, 35);
             this.lstActions.Name = "lstActions";
-            this.lstActions.Size = new System.Drawing.Size(332, 303);
+            this.lstActions.Size = new System.Drawing.Size(500, 303);
             this.lstActions.TabIndex = 1;
             // 
             // NetSparkleMainWindows
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(359, 351);
+            this.ClientSize = new System.Drawing.Size(527, 351);
             this.Controls.Add(this.lstActions);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NetSparkleMainWindows";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Software Update - Debug Window";
+            this.TopMost = true;
             this.ResumeLayout(false);
 
         }
