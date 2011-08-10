@@ -39,43 +39,64 @@
             // 
             // lblHeader
             // 
+            this.lblHeader.AccessibleDescription = null;
+            this.lblHeader.AccessibleName = null;
             resources.ApplyResources(this.lblHeader, "lblHeader");
             this.lblHeader.Name = "lblHeader";
             // 
             // progressDownload
             // 
+            this.progressDownload.AccessibleDescription = null;
+            this.progressDownload.AccessibleName = null;
             resources.ApplyResources(this.progressDownload, "progressDownload");
+            this.progressDownload.BackgroundImage = null;
+            this.progressDownload.Font = null;
             this.progressDownload.Name = "progressDownload";
             // 
             // btnInstallAndReLaunch
             // 
+            this.btnInstallAndReLaunch.AccessibleDescription = null;
+            this.btnInstallAndReLaunch.AccessibleName = null;
             resources.ApplyResources(this.btnInstallAndReLaunch, "btnInstallAndReLaunch");
+            this.btnInstallAndReLaunch.BackgroundImage = null;
+            this.btnInstallAndReLaunch.Font = null;
             this.btnInstallAndReLaunch.Name = "btnInstallAndReLaunch";
             this.btnInstallAndReLaunch.UseVisualStyleBackColor = true;
             this.btnInstallAndReLaunch.Click += new System.EventHandler(this.btnInstallAndReLaunch_Click);
             // 
             // lblSecurityHint
             // 
+            this.lblSecurityHint.AccessibleDescription = null;
+            this.lblSecurityHint.AccessibleName = null;
             resources.ApplyResources(this.lblSecurityHint, "lblSecurityHint");
             this.lblSecurityHint.Name = "lblSecurityHint";
             // 
             // imgAppIcon
             // 
+            this.imgAppIcon.AccessibleDescription = null;
+            this.imgAppIcon.AccessibleName = null;
             resources.ApplyResources(this.imgAppIcon, "imgAppIcon");
+            this.imgAppIcon.BackgroundImage = null;
+            this.imgAppIcon.Font = null;
             this.imgAppIcon.Image = global::AppLimit.NetSparkle.Properties.Resources.software_update_available1;
+            this.imgAppIcon.ImageLocation = null;
             this.imgAppIcon.Name = "imgAppIcon";
             this.imgAppIcon.TabStop = false;
             // 
             // NetSparkleDownloadProgress
             // 
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackgroundImage = null;
             this.Controls.Add(this.lblSecurityHint);
             this.Controls.Add(this.btnInstallAndReLaunch);
             this.Controls.Add(this.progressDownload);
             this.Controls.Add(this.lblHeader);
             this.Controls.Add(this.imgAppIcon);
+            this.Font = null;
             this.Name = "NetSparkleDownloadProgress";
             this.ShowInTaskbar = false;
             this.TopMost = true;
