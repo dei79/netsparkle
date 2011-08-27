@@ -16,6 +16,34 @@ namespace AppLimit.NetSparkle
     public delegate void LoopStartedOperation(Object sender);
     public delegate void LoopFinishedOperation(Object sender, Boolean UpdateRequired);
 
+    /// <summary>
+    /// Everytime when netsparkle detects an update the 
+    /// consumer can decide what should happen as next with the help 
+    /// of the UpdateDatected event
+    /// </summary>
+    public enum nNextUpdateAction
+    {
+        showStandardUserInterface = 1,
+        performUpdateUnattended = 2,
+        prohibitUpdate = 3
+    }
+
+    /// <summary>
+    /// Contains all information for the update detected event
+    /// </summary>
+    public class UpdateDetectedEventArgs : EventArgs
+    {
+        public nNextUpdateAction NextAction;
+    }
+
+    /// <summary>
+    /// This delegate will be used when an update was detected to allow library 
+    /// consumer to add own user interface capabilities.    
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    public delegate void UpdateDetected(Object sender, UpdateDetectedEventArgs e);
+
     public class Sparkle : IDisposable
     {
         private BackgroundWorker _worker = new BackgroundWorker();
@@ -59,6 +87,12 @@ namespace AppLimit.NetSparkle
         /// This event will be raised when a check loop is finished
         /// </summary>
         public event LoopFinishedOperation checkLoopFinished;
+
+        /// <summary>
+        /// This event can be used to override the standard user interface
+        /// process when an update is detected
+        /// </summary>
+        public event UpdateDetected updateDetected;
 
         /// <summary>
         /// This property holds an optional application icon
@@ -486,9 +520,37 @@ namespace AppLimit.NetSparkle
                 if (!bUpdateRequired)
                     goto WaitSection;
 
-                // show the update windows     
+                // show the update window
                 ReportDiagnosticMessage("Update needed from version " + config.InstalledVersion + " to version " + latestVersion.Version);
-                _worker.ReportProgress(1, latestVersion);
+
+                // send notification if needed
+                UpdateDetectedEventArgs ev = new UpdateDetectedEventArgs() { NextAction = nNextUpdateAction.showStandardUserInterface };
+                if (updateDetected != null)
+                    updateDetected(this, ev);
+                
+                // check results
+                switch(ev.NextAction)
+                {
+                    case nNextUpdateAction.performUpdateUnattended:
+                        {
+                            ReportDiagnosticMessage("Unattended update whished from consumer");
+                            EnableSilentMode = true;
+                            _worker.ReportProgress(1, latestVersion);
+                            break;
+                        }
+                    case nNextUpdateAction.prohibitUpdate:
+                        {
+                            ReportDiagnosticMessage("Update prohibited from consumer");
+                            break;
+                        }
+                    case nNextUpdateAction.showStandardUserInterface:
+                    default:
+                        {
+                            ReportDiagnosticMessage("Standard UI update whished from consumer");
+                            _worker.ReportProgress(1, latestVersion);
+                            break;
+                        }
+                }                
 
             WaitSection:
                 // reset initialcheck
