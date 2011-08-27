@@ -34,6 +34,8 @@ namespace AppLimit.NetSparkle
     public class UpdateDetectedEventArgs : EventArgs
     {
         public nNextUpdateAction NextAction;
+        public NetSparkleConfiguration ApplicationConfig;
+        public NetSparkleAppCastItem LatestVersion;        
     }
 
     /// <summary>
@@ -524,7 +526,7 @@ namespace AppLimit.NetSparkle
                 ReportDiagnosticMessage("Update needed from version " + config.InstalledVersion + " to version " + latestVersion.Version);
 
                 // send notification if needed
-                UpdateDetectedEventArgs ev = new UpdateDetectedEventArgs() { NextAction = nNextUpdateAction.showStandardUserInterface };
+                UpdateDetectedEventArgs ev = new UpdateDetectedEventArgs() { NextAction = nNextUpdateAction.showStandardUserInterface, ApplicationConfig = config, LatestVersion = latestVersion };
                 if (updateDetected != null)
                     updateDetected(this, ev);
                 
