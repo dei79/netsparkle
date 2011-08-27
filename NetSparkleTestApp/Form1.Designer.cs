@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
+            this.btnTestLoop = new System.Windows.Forms.Button();
+            this.btnStopLoop = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -41,11 +43,33 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Close this dialog to exit NetSparkle";
             // 
+            // btnTestLoop
+            // 
+            this.btnTestLoop.Location = new System.Drawing.Point(43, 59);
+            this.btnTestLoop.Name = "btnTestLoop";
+            this.btnTestLoop.Size = new System.Drawing.Size(75, 23);
+            this.btnTestLoop.TabIndex = 1;
+            this.btnTestLoop.Text = "Test Loop";
+            this.btnTestLoop.UseVisualStyleBackColor = true;
+            this.btnTestLoop.Click += new System.EventHandler(this.btnTestLoop_Click);
+            // 
+            // btnStopLoop
+            // 
+            this.btnStopLoop.Location = new System.Drawing.Point(135, 59);
+            this.btnStopLoop.Name = "btnStopLoop";
+            this.btnStopLoop.Size = new System.Drawing.Size(75, 23);
+            this.btnStopLoop.TabIndex = 2;
+            this.btnStopLoop.Text = "Stop Loop";
+            this.btnStopLoop.UseVisualStyleBackColor = true;
+            this.btnStopLoop.Click += new System.EventHandler(this.btnStopLoop_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(251, 60);
+            this.ClientSize = new System.Drawing.Size(251, 94);
+            this.Controls.Add(this.btnStopLoop);
+            this.Controls.Add(this.btnTestLoop);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Location = new System.Drawing.Point(10, 10);
@@ -63,6 +87,8 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnTestLoop;
+        private System.Windows.Forms.Button btnStopLoop;
     }
 }
 
