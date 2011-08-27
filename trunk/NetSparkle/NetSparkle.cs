@@ -27,7 +27,8 @@ namespace AppLimit.NetSparkle
         private Boolean _ForceInitialCheck;
 
         private EventWaitHandle _exitHandle;
-
+        private EventWaitHandle _loopingHandle;
+        
         private NetSparkleMainWindows _DiagnosticWindow;
 
         private TimeSpan _CheckFrequency;
@@ -84,6 +85,18 @@ namespace AppLimit.NetSparkle
         public Boolean EnableSilentMode { get; set; }
 
         /// <summary>
+        /// This property returns true when the upadete loop is running
+        /// and files when the loop is not running
+        /// </summary>
+        public Boolean IsUpdateLoopRunning
+        {
+            get
+            {
+                return _loopingHandle.WaitOne(0);
+            }
+        }
+
+        /// <summary>
         /// ctor which needs the appcast url
         /// </summary>
         /// <param name="appcastUrl"></param>
@@ -127,6 +140,7 @@ namespace AppLimit.NetSparkle
 
             // build the wait handle
             _exitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
+            _loopingHandle = new EventWaitHandle(false, EventResetMode.ManualReset);
 
             // set the url
             _AppCastUrl = appcastUrl;
@@ -189,6 +203,9 @@ namespace AppLimit.NetSparkle
         /// <param name="checkFrequency"></param>
         public void StartLoop(Boolean doInitialCheck, Boolean forceInitialCheck, TimeSpan checkFrequency)
         {
+            // first set the event handle
+            _loopingHandle.Set();
+
             // Start the helper thread as a background worker to 
             // get well ui interaction                        
 
@@ -214,7 +231,7 @@ namespace AppLimit.NetSparkle
         public void StopLoop()
         {
             // ensure the work will finished
-            _exitHandle.Set();
+            _exitHandle.Set();                       
         }
 
         /// <summary>
@@ -517,6 +534,9 @@ namespace AppLimit.NetSparkle
                     }
                 }
             } while (goIntoLoop);
+
+            // reset the islooping handle
+            _loopingHandle.Reset();
         }
 
         /// <summary>

@@ -29,5 +29,18 @@ namespace NetSparkleTestApp
         {
             _sparkle.StopLoop();
         }
+
+        private void btnStopLoop_Click(object sender, EventArgs e)
+        {
+            _sparkle.StopLoop();
+        }
+
+        private void btnTestLoop_Click(object sender, EventArgs e)
+        {
+            if (_sparkle.IsUpdateLoopRunning)
+                MessageBox.Show("Loop is running");
+            else
+                MessageBox.Show("Loop is not running");
+        }
     }
 }
