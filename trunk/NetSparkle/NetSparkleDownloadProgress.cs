@@ -83,40 +83,40 @@ namespace AppLimit.NetSparkle
             {
                 Boolean bDSAOk = false;
 
-                // report
-                _sparkle.ReportDiagnosticMessage("Performing DSA check");
+            // report
+            _sparkle.ReportDiagnosticMessage("Performing DSA check");
 
-                // get the assembly
-                if (File.Exists(_tempName))
+            // get the assembly
+            if (File.Exists(_tempName))
+            {
+                // check if the file was downloaded successfully
+                String absolutePath = Path.GetFullPath(_tempName);
+                if (!File.Exists(absolutePath))
+                    throw new FileNotFoundException();
+
+                // get the assembly reference from which we start the update progress
+                // only from this trusted assembly the public key can be used
+                Assembly refassembly = System.Reflection.Assembly.GetEntryAssembly();
+                if (refassembly != null)
                 {
-                    // check if the file was downloaded successfully
-                    String absolutePath = Path.GetFullPath(_tempName);
-                    if (!File.Exists(absolutePath))
-                        throw new FileNotFoundException();
-
-                    // get the assembly reference from which we start the update progress
-                    // only from this trusted assembly the public key can be used
-                    Assembly refassembly = System.Reflection.Assembly.GetEntryAssembly();
-                    if (refassembly != null)
+                    // Check if we found the public key in our entry assembly
+                    if (NetSparkleDSAVerificator.ExistsPublicKey("NetSparkle_DSA.pub"))
                     {
-                        // Check if we found the public key in our entry assembly
-                        if (NetSparkleDSAVerificator.ExistsPublicKey(refassembly.GetName().Name + ".NetSparkle_DSA.pub"))
-                        {
-                            // check the DSA Code and modify the back color            
-                            NetSparkleDSAVerificator dsaVerifier = new NetSparkleDSAVerificator(refassembly.GetName().Name + ".NetSparkle_DSA.pub");
-                            bDSAOk = dsaVerifier.VerifyDSASignature(_item.DSASignature, _tempName);
-                        }
+                        // check the DSA Code and modify the back color            
+                        NetSparkleDSAVerificator dsaVerifier = new NetSparkleDSAVerificator("NetSparkle_DSA.pub");
+                        bDSAOk = dsaVerifier.VerifyDSASignature(_item.DSASignature, _tempName);
                     }
                 }
+            }
 
                 if (!bDSAOk)
-                {
-                    Size = new Size(Size.Width, 137);
-                    lblSecurityHint.Visible = true;
-                    BackColor = Color.Tomato;
-                }
+            {
+                Size = new Size(Size.Width, 137);
+                lblSecurityHint.Visible = true;
+                BackColor = Color.Tomato;
+        }
             }
-            
+               
             // Check the unattended mode
             if (_unattend)
                 btnInstallAndReLaunch_Click(null, null);

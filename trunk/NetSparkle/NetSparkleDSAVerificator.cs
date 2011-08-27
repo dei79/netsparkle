@@ -81,7 +81,7 @@ namespace AppLimit.NetSparkle
 
             foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
             {
-                var resourceName = asm.GetManifestResourceNames().FirstOrDefault(s => s.Contains(publicKey));
+                var resourceName = asm.GetManifestResourceNames().FirstOrDefault(s => s.IndexOf(publicKey, StringComparison.OrdinalIgnoreCase) > -1);
                 if (!string.IsNullOrEmpty(resourceName))
                 {
                   data = asm.GetManifestResourceStream(resourceName);
