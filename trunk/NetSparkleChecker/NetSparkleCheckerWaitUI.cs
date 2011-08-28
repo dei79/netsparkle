@@ -26,9 +26,13 @@ namespace NetSparkleChecker
             // get cmdline args
             String[] args = Environment.GetCommandLineArgs();
 
+#if DEBUG
             // enable dialog
             Boolean bShowDiagnosticWindow = true;
-
+#else
+            // disable dialog
+            Boolean bShowDiagnosticWindow = false;
+#endif
             // init sparkle
             _sparkle = new Sparkle(args[2], args[1], bShowDiagnosticWindow);
             
