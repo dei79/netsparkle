@@ -10,7 +10,8 @@ namespace AppLimit.NetSparkle
     public class NetSparkleAssemblyAccessor
     {
         private Assembly _assembly;
-        
+        private List<Attribute> _assemblyAttributes = new List<Attribute>();
+
         public NetSparkleAssemblyAccessor(String assemblyName)
         {
             if (assemblyName == null)
@@ -21,8 +22,63 @@ namespace AppLimit.NetSparkle
                 if (!File.Exists(absolutePath))
                     throw new FileNotFoundException();
 
-                _assembly = Assembly.LoadFile(absolutePath);                
+                _assembly = Assembly.ReflectionOnlyLoadFrom(absolutePath);
+
+                if (_assembly == null)
+                    throw new Exception("Unable to load assembly " + absolutePath);                
             }
+
+            // read the attributes            
+            foreach (CustomAttributeData data in _assembly.GetCustomAttributesData())
+                _assemblyAttributes.Add(CreateAttribute(data));
+
+            if (_assemblyAttributes == null || _assemblyAttributes.Count == 0)
+                throw new Exception("Unable to load assembly attributes from " + _assembly.FullName);                                    
+        }
+
+        /// <summary>
+        /// This methods creates an attribute instance from the attribute data 
+        /// information
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        private Attribute CreateAttribute(CustomAttributeData data)
+        {
+            var arguments = from arg in data.ConstructorArguments
+                            select arg.Value;
+
+            var attribute = data.Constructor.Invoke(arguments.ToArray())
+              as Attribute;
+
+            foreach (var namedArgument in data.NamedArguments)
+            {
+                var propertyInfo = namedArgument.MemberInfo as PropertyInfo;
+                if (propertyInfo != null)
+                {
+                    propertyInfo.SetValue(attribute, namedArgument.TypedValue.Value, null);
+                }
+                else
+                {
+                    var fieldInfo = namedArgument.MemberInfo as FieldInfo;
+                    if (fieldInfo != null)
+                    {
+                        fieldInfo.SetValue(attribute, namedArgument.TypedValue.Value);
+                    }
+                }
+            }
+
+            return attribute;
+        }
+
+        private Attribute FindAttribute(Type AttributeType)
+        {            
+            foreach (Attribute attr in _assemblyAttributes)
+            {
+                if (attr.GetType().Equals(AttributeType))
+                    return attr;                                
+            }
+
+            throw new Exception("Attribute of type " + AttributeType.ToString() + " does not exists in the assembly " + _assembly.FullName);
         }
 
         #region Assembly Attribute Accessors
@@ -31,16 +87,8 @@ namespace AppLimit.NetSparkle
         {
             get
             {
-                object[] attributes = _assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
-                if (attributes.Length > 0)
-                {
-                    AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
-                    if (titleAttribute.Title != "")
-                    {
-                        return titleAttribute.Title;
-                    }
-                }
-                return System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
+                AssemblyTitleAttribute a = FindAttribute(typeof(AssemblyTitleAttribute)) as AssemblyTitleAttribute;
+                return a.Title;                
             }
         }
 
@@ -56,12 +104,8 @@ namespace AppLimit.NetSparkle
         {
             get
             {
-                object[] attributes = _assembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
-                if (attributes.Length == 0)
-                {
-                    return "";
-                }
-                return ((AssemblyDescriptionAttribute)attributes[0]).Description;
+                AssemblyDescriptionAttribute a = FindAttribute(typeof(AssemblyDescriptionAttribute)) as AssemblyDescriptionAttribute;
+                return a.Description;                                
             }
         }
 
@@ -69,12 +113,8 @@ namespace AppLimit.NetSparkle
         {
             get
             {
-                object[] attributes = _assembly.GetCustomAttributes(typeof(AssemblyProductAttribute), false);
-                if (attributes.Length == 0)
-                {
-                    return "";
-                }
-                return ((AssemblyProductAttribute)attributes[0]).Product;
+                AssemblyProductAttribute a = FindAttribute(typeof(AssemblyProductAttribute)) as AssemblyProductAttribute;
+                return a.Product;                                
             }
         }
 
@@ -82,12 +122,8 @@ namespace AppLimit.NetSparkle
         {
             get
             {
-                object[] attributes = _assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-                if (attributes.Length == 0)
-                {
-                    return "";
-                }
-                return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
+                AssemblyCopyrightAttribute a = FindAttribute(typeof(AssemblyCopyrightAttribute)) as AssemblyCopyrightAttribute;
+                return a.Copyright;                                                
             }
         }
 
@@ -95,12 +131,8 @@ namespace AppLimit.NetSparkle
         {
             get
             {
-                object[] attributes = _assembly.GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
-                if (attributes.Length == 0)
-                {
-                    return "";
-                }
-                return ((AssemblyCompanyAttribute)attributes[0]).Company;
+                AssemblyCompanyAttribute a = FindAttribute(typeof(AssemblyCompanyAttribute)) as AssemblyCompanyAttribute;
+                return a.Company;                  
             }
         }
         #endregion
