@@ -641,18 +641,24 @@ namespace AppLimit.NetSparkle
 
         private void ShowDiagnosticWindowIfNeeded()
         {
-            // check the diagnotic value
-            NetSparkleConfiguration config = new NetSparkleConfiguration(_AppReferenceAssembly);
-            if (config.ShowDiagnosticWindow || ShowDiagnosticWindow)
+            if (_DiagnosticWindow.InvokeRequired)
             {
-                Point newLocation = new Point();
+                _DiagnosticWindow.Invoke(new Action(ShowDiagnosticWindowIfNeeded));
+            }
+            else
+            {
+                // check the diagnotic value
+                NetSparkleConfiguration config = new NetSparkleConfiguration(_AppReferenceAssembly);
+                if (config.ShowDiagnosticWindow || ShowDiagnosticWindow)
+                {
+                    Point newLocation = new Point();
 
-                newLocation.X = Screen.PrimaryScreen.Bounds.Width - _DiagnosticWindow.Width;
-                newLocation.Y = 0;
+                    newLocation.X = Screen.PrimaryScreen.Bounds.Width - _DiagnosticWindow.Width;
+                    newLocation.Y = 0;
 
-                _DiagnosticWindow.Location = newLocation;
-
-                _DiagnosticWindow.Show();
+                    _DiagnosticWindow.Location = newLocation;
+                    _DiagnosticWindow.Show();
+                }
             }
         }
     }
