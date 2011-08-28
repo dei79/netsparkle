@@ -158,7 +158,7 @@ namespace AppLimit.NetSparkle
 
             // reset vars
             ApplicationIcon = null;
-            _AppReferenceAssembly = null;
+            _AppReferenceAssembly = null;            
 
             // set var
             ShowDiagnosticWindow = ShowDiagnostic;
@@ -166,8 +166,15 @@ namespace AppLimit.NetSparkle
             // create the diagnotic window
             _DiagnosticWindow = new NetSparkleMainWindows();
 
+            // set the reference assembly
+            if (referenceAssembly != null)
+            {
+                _AppReferenceAssembly = referenceAssembly;
+                _DiagnosticWindow.Report("Checking the following file: " + _AppReferenceAssembly);
+            }
+
             // show if needed
-            ShowDiagnosticWindowIfNeeded();
+            ShowDiagnosticWindowIfNeeded();            
 
             // adjust the delegates
             _worker.WorkerReportsProgress = true;
@@ -180,14 +187,7 @@ namespace AppLimit.NetSparkle
 
             // set the url
             _AppCastUrl = appcastUrl;
-            _DiagnosticWindow.Report("Using the following url: " + _AppCastUrl);
-
-            // set the reference assembly
-            if (referenceAssembly != null)
-            {
-                _AppReferenceAssembly = referenceAssembly;
-                _DiagnosticWindow.Report("Checking the following file: " + _AppReferenceAssembly);
-            }
+            _DiagnosticWindow.Report("Using the following url: " + _AppCastUrl);            
         }
 
         /// <summary>
