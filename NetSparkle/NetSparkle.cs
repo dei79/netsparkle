@@ -438,7 +438,7 @@ namespace AppLimit.NetSparkle
         {
             if (_DiagnosticWindow.InvokeRequired)
             {
-                _worker.ReportProgress(0, message);
+                _DiagnosticWindow.Invoke(new Action<String>(ReportDiagnosticMessage), message);                
             }
             else
             {
