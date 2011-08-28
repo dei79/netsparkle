@@ -40,17 +40,24 @@ namespace NetSparkleChecker
                     return;
                 }
 
-                // init sparkle
-                Sparkle _sparkle = new Sparkle(args[2], args[1], false);
-                
-                // show the form
-                NetSparkleCheckerWaitUI frmWait = new NetSparkleCheckerWaitUI(_sparkle, _sparkle.ApplicationIcon, _sparkle.ApplicationWindowIcon);
-                Application.Run(frmWait);
-
-                // check for update
-                if (frmWait.SprakleRequestedUpdate)
+                try
                 {
-                    _sparkle.ShowUpdateNeededUI(frmWait.LatesVersion);
+                    // init sparkle
+                    Sparkle _sparkle = new Sparkle(args[2], args[1], false);
+
+                    // show the form
+                    NetSparkleCheckerWaitUI frmWait = new NetSparkleCheckerWaitUI(_sparkle, _sparkle.ApplicationIcon, _sparkle.ApplicationWindowIcon);
+                    Application.Run(frmWait);
+
+                    // check for update
+                    if (frmWait.SprakleRequestedUpdate)
+                    {
+                        _sparkle.ShowUpdateNeededUI(frmWait.LatesVersion);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Unhandled exception");
                 }
             }            
         }                   
