@@ -16,7 +16,7 @@ namespace NetSparkleChecker
         private Sparkle _sparkle;
         private NetSparkleAppCastItem LatesVersion = null;
 
-        public Boolean SprakleRequestedUpdate = false;
+        public Boolean SparkleRequestedUpdate = false;
         
         public NetSparkleCheckerWaitUI()
         {
@@ -60,7 +60,7 @@ namespace NetSparkleChecker
             Boolean bUpdateRequired = _sparkle.IsUpdateRequired(config, out latestVersion);
                                 
             // save the result
-            SprakleRequestedUpdate = bUpdateRequired;
+            SparkleRequestedUpdate = bUpdateRequired;
             LatesVersion = latestVersion;
         }
 
