@@ -47,9 +47,14 @@ namespace NetSparkleChecker
                     Application.Run(frmWait);
 
                     // check for update
-                    if (frmWait.SprakleRequestedUpdate)
+                    if (frmWait.SparkleRequestedUpdate)
                     {
                         frmWait.ShowUpdateUI();
+                    }
+                    else
+                    {
+                        SoftwareUpToDate ok = new SoftwareUpToDate();
+                        ok.ShowDialog();
                     }
                 }
                 catch (Exception e)

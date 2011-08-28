@@ -82,6 +82,12 @@
       <DependentUpon>NetSparkleCheckerWaitUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="SoftwareUpToDate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SoftwareUpToDate.Designer.cs">
+      <DependentUpon>SoftwareUpToDate.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="NetSparkleCheckerWaitUI.resx">
       <DependentUpon>NetSparkleCheckerWaitUI.cs</DependentUpon>
     </EmbeddedResource>
@@ -95,6 +101,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SoftwareUpToDate.resx">
+      <DependentUpon>SoftwareUpToDate.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
