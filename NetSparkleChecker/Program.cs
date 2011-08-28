@@ -41,18 +41,15 @@ namespace NetSparkleChecker
                 }
 
                 try
-                {
-                    // init sparkle
-                    Sparkle _sparkle = new Sparkle(args[2], args[1], false);
-
+                {                    
                     // show the form
-                    NetSparkleCheckerWaitUI frmWait = new NetSparkleCheckerWaitUI(_sparkle, _sparkle.ApplicationIcon, _sparkle.ApplicationWindowIcon);
+                    NetSparkleCheckerWaitUI frmWait = new NetSparkleCheckerWaitUI();
                     Application.Run(frmWait);
 
                     // check for update
                     if (frmWait.SprakleRequestedUpdate)
                     {
-                        _sparkle.ShowUpdateNeededUI(frmWait.LatesVersion);
+                        frmWait.ShowUpdateUI();
                     }
                 }
                 catch (Exception e)

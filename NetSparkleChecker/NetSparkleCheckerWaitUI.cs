@@ -14,23 +14,37 @@ namespace NetSparkleChecker
     public partial class NetSparkleCheckerWaitUI : Form
     {
         private Sparkle _sparkle;
+        private NetSparkleAppCastItem LatesVersion = null;
 
         public Boolean SprakleRequestedUpdate = false;
-        public NetSparkleAppCastItem LatesVersion = null;
-
-        public NetSparkleCheckerWaitUI(Sparkle sparkle, Image appIcon, Icon windowIcon)
+        
+        public NetSparkleCheckerWaitUI()
         {
+            // init ui
             InitializeComponent();
 
-            if (appIcon != null)
-                imgAppIcon.Image = appIcon;
+            // get cmdline args
+            String[] args = Environment.GetCommandLineArgs();
 
-            if (windowIcon != null)
-                Icon = windowIcon;
+            // init sparkle
+            _sparkle = new Sparkle(args[2], args[1], false);
 
-            _sparkle = sparkle;
+            // set labels
+            lblRefFileName.Text = args[1];
+            lblRefUrl.Text = args[2];
+
+            if (_sparkle.ApplicationIcon != null)
+                imgAppIcon.Image = _sparkle.ApplicationIcon;
+
+            if (_sparkle.ApplicationWindowIcon != null)
+                Icon = _sparkle.ApplicationWindowIcon;            
 
             bckWorker.RunWorkerAsync();
+        }
+
+        public void ShowUpdateUI()
+        {
+            _sparkle.ShowUpdateNeededUI(LatesVersion);
         }
 
         private void bckWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -51,6 +65,6 @@ namespace NetSparkleChecker
         {
             // close the form
             Close();
-        }
+        }        
     }
 }

@@ -33,6 +33,10 @@
             this.imgAppIcon = new System.Windows.Forms.PictureBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.bckWorker = new System.ComponentModel.BackgroundWorker();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblRefFileName = new System.Windows.Forms.Label();
+            this.lblRefUrl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.imgAppIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -62,7 +66,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar1.Location = new System.Drawing.Point(69, 37);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(339, 23);
+            this.progressBar1.Size = new System.Drawing.Size(402, 23);
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar1.TabIndex = 8;
             // 
@@ -71,11 +75,51 @@
             this.bckWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bckWorker_DoWork);
             this.bckWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bckWorker_RunWorkerCompleted);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 73);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(81, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "References file:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(40, 95);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "App-Cast:";
+            // 
+            // lblRefFileName
+            // 
+            this.lblRefFileName.AutoSize = true;
+            this.lblRefFileName.Location = new System.Drawing.Point(99, 73);
+            this.lblRefFileName.Name = "lblRefFileName";
+            this.lblRefFileName.Size = new System.Drawing.Size(22, 13);
+            this.lblRefFileName.TabIndex = 11;
+            this.lblRefFileName.Text = "xxx";
+            // 
+            // lblRefUrl
+            // 
+            this.lblRefUrl.AutoSize = true;
+            this.lblRefUrl.Location = new System.Drawing.Point(99, 95);
+            this.lblRefUrl.Name = "lblRefUrl";
+            this.lblRefUrl.Size = new System.Drawing.Size(22, 13);
+            this.lblRefUrl.TabIndex = 12;
+            this.lblRefUrl.Text = "xxx";
+            // 
             // NetSparkleCheckerWaitUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(420, 71);
+            this.ClientSize = new System.Drawing.Size(483, 118);
+            this.Controls.Add(this.lblRefUrl);
+            this.Controls.Add(this.lblRefFileName);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.lblHeader);
             this.Controls.Add(this.imgAppIcon);
@@ -95,6 +139,10 @@
         private System.Windows.Forms.PictureBox imgAppIcon;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.ComponentModel.BackgroundWorker bckWorker;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblRefFileName;
+        private System.Windows.Forms.Label lblRefUrl;
     }
 }
 
