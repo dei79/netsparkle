@@ -26,9 +26,12 @@ namespace NetSparkleChecker
             // get cmdline args
             String[] args = Environment.GetCommandLineArgs();
 
-            // init sparkle
-            _sparkle = new Sparkle(args[2], args[1], false);
+            // enable dialog
+            Boolean bShowDiagnosticWindow = true;
 
+            // init sparkle
+            _sparkle = new Sparkle(args[2], args[1], bShowDiagnosticWindow);
+            
             // set labels
             lblRefFileName.Text = args[1];
             lblRefUrl.Text = args[2];
