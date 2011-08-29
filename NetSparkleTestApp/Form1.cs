@@ -12,9 +12,10 @@ namespace NetSparkleTestApp
         {
             InitializeComponent();
 
-            _sparkle = new Sparkle("http://update.applimit.com/netsparkle/versioninfo.xml")
+            _sparkle = new Sparkle("https://update.applimit.com/netsparkle/versioninfo.xml")
             {
                 ShowDiagnosticWindow = true,
+                TrustEverySSLConnection = true,
                 //EnableSystemProfiling = true,
                 //SystemProfileUrl = new Uri("http://update.applimit.com/netsparkle/stat/profileInfo.php")
             };

@@ -10,6 +10,8 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Management;
 using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
 
 namespace AppLimit.NetSparkle
 {
@@ -133,6 +135,12 @@ namespace AppLimit.NetSparkle
         }
 
         /// <summary>
+        /// This property defines if we trust every ssl connection also when 
+        /// this connection has not a valid cert
+        /// </summary>
+        public Boolean TrustEverySSLConnection { get; set; }
+
+        /// <summary>
         /// ctor which needs the appcast url
         /// </summary>
         /// <param name="appcastUrl"></param>
@@ -152,6 +160,12 @@ namespace AppLimit.NetSparkle
         /// </summary>        
         public Sparkle(String appcastUrl, String referenceAssembly, Boolean ShowDiagnostic)
         {
+            // preconfige ssl trust
+            TrustEverySSLConnection = false;
+
+            // configure ssl cert link
+            ServicePointManager.ServerCertificateValidationCallback += RemoteCertificateValidation;
+
             // enable visual style to ensure that we have XP style or higher
             // also in WPF applications
             System.Windows.Forms.Application.EnableVisualStyles();
@@ -675,6 +689,28 @@ namespace AppLimit.NetSparkle
                     _DiagnosticWindow.Location = newLocation;
                     _DiagnosticWindow.Show();
                 }
+            }
+        }
+
+        private bool RemoteCertificateValidation(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            if (TrustEverySSLConnection)
+            {
+                // verify if we talk about our app cast dll 
+                HttpWebRequest req = sender as HttpWebRequest;
+                if (req == null)
+                    return (certificate is X509Certificate2) ? ((X509Certificate2)certificate).Verify() : false;
+
+                // if so just return our trust 
+                if (req.RequestUri.Equals(new Uri(_AppCastUrl)))
+                    return true;
+                else
+                    return (certificate is X509Certificate2) ? ((X509Certificate2)certificate).Verify() : false;
+            }
+            else
+            {
+                // check our cert                 
+                return (certificate is X509Certificate2) ? ((X509Certificate2)certificate).Verify() : false;
             }
         }
     }
