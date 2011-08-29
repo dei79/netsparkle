@@ -353,7 +353,19 @@ namespace AppLimit.NetSparkle
             NetSparkleAppCast cast = new NetSparkleAppCast(_AppCastUrl, config);
 
             // check if any updates are available
-            latestVersion = cast.GetLatestVersion();
+            try
+            {
+                latestVersion = cast.GetLatestVersion();
+            }
+            catch (Exception e)
+            {
+                // show the exeception message 
+                ReportDiagnosticMessage("Error during app cast download: " + e.Message);
+
+                // just null the version info
+                latestVersion = null;
+            }
+
             if (latestVersion == null)
             {
                 ReportDiagnosticMessage("No version information in app cast found");
