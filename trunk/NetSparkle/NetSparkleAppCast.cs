@@ -29,73 +29,66 @@ namespace AppLimit.NetSparkle
         public NetSparkleAppCastItem GetLatestVersion()
         {
             NetSparkleAppCastItem latestVersion = null;
+          
+            // build a http web request stream
+            WebRequest request = HttpWebRequest.Create(_castUrl);
 
-            try
+            // request the cast and build the stream
+            WebResponse response = request.GetResponse();
+
+            Stream inputstream = response.GetResponseStream();
+
+            NetSparkleAppCastItem currentItem = null;
+
+            XmlTextReader reader = new XmlTextReader(inputstream);
+            while(reader.Read())
             {
-                // build a http web request stream
-                WebRequest request = HttpWebRequest.Create(_castUrl);
-
-                // request the cast and build the stream
-                WebResponse response = request.GetResponse();
-
-                Stream inputstream = response.GetResponseStream();
-
-                NetSparkleAppCastItem currentItem = null;
-
-                XmlTextReader reader = new XmlTextReader(inputstream);
-                while(reader.Read())
+                if ( reader.NodeType == XmlNodeType.Element)
                 {
-                    if ( reader.NodeType == XmlNodeType.Element)
+                    switch(reader.Name)
                     {
-                        switch(reader.Name)
-                        {
-                            case itemNode:
-                                {
-                                    currentItem = new NetSparkleAppCastItem();
-                                    break;
-                                }
-                            case releaseNotesLinkNode:
-                                {
-                                    currentItem.ReleaseNotesLink = reader.ReadString();
-                                    currentItem.ReleaseNotesLink = currentItem.ReleaseNotesLink.Trim('\n');
-                                    break;
-                                }                            
-                            case enclosureNode:
-                                {
-                                    currentItem.Version = reader.GetAttribute(versionAttribute);
-                                    currentItem.DownloadLink = reader.GetAttribute(urlAttribute);
-                                    currentItem.DSASignature = reader.GetAttribute(dasSignature);
+                        case itemNode:
+                            {
+                                currentItem = new NetSparkleAppCastItem();
+                                break;
+                            }
+                        case releaseNotesLinkNode:
+                            {
+                                currentItem.ReleaseNotesLink = reader.ReadString();
+                                currentItem.ReleaseNotesLink = currentItem.ReleaseNotesLink.Trim('\n');
+                                break;
+                            }                            
+                        case enclosureNode:
+                            {
+                                currentItem.Version = reader.GetAttribute(versionAttribute);
+                                currentItem.DownloadLink = reader.GetAttribute(urlAttribute);
+                                currentItem.DSASignature = reader.GetAttribute(dasSignature);
 
-                                    break;
-                                }
-                        }
+                                break;
+                            }
                     }
-                    else if (reader.NodeType == XmlNodeType.EndElement)
-                    {
-                        switch (reader.Name)
-                        {
-                            case itemNode:
-                                {
-                                    if (latestVersion == null)
-                                        latestVersion = currentItem;
-                                    else if (currentItem.CompareTo(latestVersion) > 0 )
-                                    {
-                                            latestVersion = currentItem;
-                                    }
-                                    break;
-                                }                            
-                        }
-                    }                    
                 }
-
-                // add some other attributes
-                latestVersion.AppName = _config.ApplicationName;
-                latestVersion.AppVersionInstalled = _config.InstalledVersion;
+                else if (reader.NodeType == XmlNodeType.EndElement)
+                {
+                    switch (reader.Name)
+                    {
+                        case itemNode:
+                            {
+                                if (latestVersion == null)
+                                    latestVersion = currentItem;
+                                else if (currentItem.CompareTo(latestVersion) > 0 )
+                                {
+                                        latestVersion = currentItem;
+                                }
+                                break;
+                            }                            
+                    }
+                }                    
             }
-            catch (Exception)
-            {
 
-            }
+            // add some other attributes
+            latestVersion.AppName = _config.ApplicationName;
+            latestVersion.AppVersionInstalled = _config.InstalledVersion;
             
             // go ahead
             return latestVersion;
