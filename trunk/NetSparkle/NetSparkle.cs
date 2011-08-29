@@ -359,6 +359,10 @@ namespace AppLimit.NetSparkle
                 ReportDiagnosticMessage("No version information in app cast found");
                 return false;
             }
+            else
+            {
+                ReportDiagnosticMessage("Lastest version on the server is " + latestVersion.Version);
+            }
 
             // set the last check time
             ReportDiagnosticMessage("Touch the last check timestamp");
