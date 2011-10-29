@@ -49,7 +49,7 @@ namespace AppLimit.NetSparkle
 
         public string AssemblyVersion
         {
-            get { return _internalAccessor.AssemblyTitle; }
+            get { return _internalAccessor.AssemblyVersion; }
         }
 
         #endregion
