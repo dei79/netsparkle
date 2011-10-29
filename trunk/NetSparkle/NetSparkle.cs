@@ -138,7 +138,7 @@ namespace AppLimit.NetSparkle
         /// This property defines if we trust every ssl connection also when 
         /// this connection has not a valid cert
         /// </summary>
-        public Boolean TrustEverySSLConnection { get; set; }
+        public Boolean TrustEverySSLConnection { get; set; }      
 
         /// <summary>
         /// ctor which needs the appcast url

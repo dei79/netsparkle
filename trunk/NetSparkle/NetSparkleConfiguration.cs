@@ -30,6 +30,13 @@ namespace AppLimit.NetSparkle
         public Boolean ShowDiagnosticWindow { get; private set; }
         public DateTime LastProfileUpdate   { get; private set; }
 
+        /// <summary>
+        /// If this property is true a reflection based accessor will be used
+        /// to determine the assmebly name and verison, otherwise a System.Diagnostics
+        /// based access will be used
+        /// </summary>
+        public Boolean UseReflectionBasedAssemblyAccessor { get; private set; }
+
         private String _referenceAssembly;
 
         /// <summary>
@@ -42,7 +49,7 @@ namespace AppLimit.NetSparkle
             try
             {
                 // set some value from the binary
-                NetSparkleAssemblyAccessor accessor = new NetSparkleAssemblyAccessor(ReferenceAssembly);
+                NetSparkleAssemblyAccessor accessor = new NetSparkleAssemblyAccessor(ReferenceAssembly, UseReflectionBasedAssemblyAccessor);
                 ApplicationName     = accessor.AssemblyProduct;
                 InstalledVersion    = accessor.AssemblyVersion;
 
@@ -118,7 +125,7 @@ namespace AppLimit.NetSparkle
         /// <returns></returns>
         private String BuildRegistryPath()
         {
-            NetSparkleAssemblyAccessor accessor = new NetSparkleAssemblyAccessor(_referenceAssembly);
+            NetSparkleAssemblyAccessor accessor = new NetSparkleAssemblyAccessor(_referenceAssembly, UseReflectionBasedAssemblyAccessor);
 
             if (accessor.AssemblyCompany == null || accessor.AssemblyCompany.Length == 0 ||
                     accessor.AssemblyProduct == null || accessor.AssemblyProduct.Length == 0)
@@ -136,6 +143,7 @@ namespace AppLimit.NetSparkle
             LastCheckTime = new DateTime(0);
             SkipThisVersion = String.Empty;
             DidRunOnce = false;
+            UseReflectionBasedAssemblyAccessor = true;
         }
 
         /// <summary>
@@ -157,6 +165,7 @@ namespace AppLimit.NetSparkle
                 String strDidRunOnc = key.GetValue("DidRunOnce", "False") as String;
                 String strShowDiagnosticWindow = key.GetValue("ShowDiagnosticWindow", "False") as String;
                 String strProfileTime = key.GetValue("LastProfileUpdate", new DateTime(0).ToString()) as String;
+                String strUseReflectionBasedAssemblyAccessor = key.GetValue("UseReflectionBasedAssemblyAccessor", "True") as String;
 
                 // convert th right datatypes
                 CheckForUpdate = Convert.ToBoolean(strCheckForUpdate);
@@ -165,7 +174,7 @@ namespace AppLimit.NetSparkle
                 DidRunOnce = Convert.ToBoolean(strDidRunOnc);
                 ShowDiagnosticWindow = Convert.ToBoolean(strShowDiagnosticWindow);
                 LastProfileUpdate = Convert.ToDateTime(strProfileTime);
-
+                UseReflectionBasedAssemblyAccessor = Convert.ToBoolean(strUseReflectionBasedAssemblyAccessor);
                 return true;
             }
         }
@@ -188,6 +197,7 @@ namespace AppLimit.NetSparkle
                 String strSkipThisVersion   = SkipThisVersion.ToString();
                 String strDidRunOnc         = DidRunOnce.ToString();
                 String strProfileTime       = LastProfileUpdate.ToString();
+                String strUseReflectionBasedAssemblyAccessor = UseReflectionBasedAssemblyAccessor.ToString();
 
                 // set the values
                 key.SetValue("CheckForUpdate", strCheckForUpdate, RegistryValueKind.String);
@@ -195,6 +205,7 @@ namespace AppLimit.NetSparkle
                 key.SetValue("SkipThisVersion", strSkipThisVersion, RegistryValueKind.String);
                 key.SetValue("DidRunOnce", strDidRunOnc, RegistryValueKind.String);
                 key.SetValue("LastProfileUpdate", strProfileTime, RegistryValueKind.String);
+                key.SetValue("UseReflectionBasedAssemblyAccessor", strUseReflectionBasedAssemblyAccessor, RegistryValueKind.String);
 
                 return true;
             }
