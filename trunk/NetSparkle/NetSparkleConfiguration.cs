@@ -43,18 +43,26 @@ namespace AppLimit.NetSparkle
         /// The constructor reads out all configured values
         /// </summary>        
         public NetSparkleConfiguration(String ReferenceAssembly)
+            : this(ReferenceAssembly, true)
+        { }
+
+        public NetSparkleConfiguration(String ReferenceAssembly, Boolean UseReflectionBasedAssemblyAccessor)
         {
+            // set the value
+            this.UseReflectionBasedAssemblyAccessor = UseReflectionBasedAssemblyAccessor;
+
+            // save the referecne assembly
             _referenceAssembly = ReferenceAssembly;
 
             try
             {
-                // set some value from the binary
-                NetSparkleAssemblyAccessor accessor = new NetSparkleAssemblyAccessor(ReferenceAssembly, UseReflectionBasedAssemblyAccessor);
-                ApplicationName     = accessor.AssemblyProduct;
-                InstalledVersion    = accessor.AssemblyVersion;
-
                 // set default values
                 InitWithDefaultValues();
+
+                // set some value from the binary
+                NetSparkleAssemblyAccessor accessor = new NetSparkleAssemblyAccessor(ReferenceAssembly, this.UseReflectionBasedAssemblyAccessor);
+                ApplicationName     = accessor.AssemblyProduct;
+                InstalledVersion    = accessor.AssemblyVersion;
 
                 // build the reg path
                 String regPath = BuildRegistryPath();
@@ -164,8 +172,7 @@ namespace AppLimit.NetSparkle
                 String strSkipThisVersion = key.GetValue("SkipThisVersion", "") as String;                
                 String strDidRunOnc = key.GetValue("DidRunOnce", "False") as String;
                 String strShowDiagnosticWindow = key.GetValue("ShowDiagnosticWindow", "False") as String;
-                String strProfileTime = key.GetValue("LastProfileUpdate", new DateTime(0).ToString()) as String;
-                String strUseReflectionBasedAssemblyAccessor = key.GetValue("UseReflectionBasedAssemblyAccessor", "True") as String;
+                String strProfileTime = key.GetValue("LastProfileUpdate", new DateTime(0).ToString()) as String;                
 
                 // convert th right datatypes
                 CheckForUpdate = Convert.ToBoolean(strCheckForUpdate);
@@ -173,8 +180,7 @@ namespace AppLimit.NetSparkle
                 SkipThisVersion = strSkipThisVersion;
                 DidRunOnce = Convert.ToBoolean(strDidRunOnc);
                 ShowDiagnosticWindow = Convert.ToBoolean(strShowDiagnosticWindow);
-                LastProfileUpdate = Convert.ToDateTime(strProfileTime);
-                UseReflectionBasedAssemblyAccessor = Convert.ToBoolean(strUseReflectionBasedAssemblyAccessor);
+                LastProfileUpdate = Convert.ToDateTime(strProfileTime);                
                 return true;
             }
         }
@@ -196,16 +202,14 @@ namespace AppLimit.NetSparkle
                 String strLastCheckTime     = LastCheckTime.ToString();
                 String strSkipThisVersion   = SkipThisVersion.ToString();
                 String strDidRunOnc         = DidRunOnce.ToString();
-                String strProfileTime       = LastProfileUpdate.ToString();
-                String strUseReflectionBasedAssemblyAccessor = UseReflectionBasedAssemblyAccessor.ToString();
+                String strProfileTime       = LastProfileUpdate.ToString();                
 
                 // set the values
                 key.SetValue("CheckForUpdate", strCheckForUpdate, RegistryValueKind.String);
                 key.SetValue("LastCheckTime", strLastCheckTime, RegistryValueKind.String);
                 key.SetValue("SkipThisVersion", strSkipThisVersion, RegistryValueKind.String);
                 key.SetValue("DidRunOnce", strDidRunOnc, RegistryValueKind.String);
-                key.SetValue("LastProfileUpdate", strProfileTime, RegistryValueKind.String);
-                key.SetValue("UseReflectionBasedAssemblyAccessor", strUseReflectionBasedAssemblyAccessor, RegistryValueKind.String);
+                key.SetValue("LastProfileUpdate", strProfileTime, RegistryValueKind.String);                
 
                 return true;
             }
