@@ -74,47 +74,11 @@ namespace AppLimit.NetSparkle
             // report message            
             _sparkle.ReportDiagnosticMessage("Finished downloading file to: " + _tempName);
 
-            // check if we have a dsa signature in appcast            
-            if (_item.DSASignature == null || _item.DSASignature.Length == 0)
-            {
-                _sparkle.ReportDiagnosticMessage("No DSA check needed");
-            }
-            else
-            {
-                Boolean bDSAOk = false;
-
-            // report
-            _sparkle.ReportDiagnosticMessage("Performing DSA check");
-
-            // get the assembly
-            if (File.Exists(_tempName))
-            {
-                // check if the file was downloaded successfully
-                String absolutePath = Path.GetFullPath(_tempName);
-                if (!File.Exists(absolutePath))
-                    throw new FileNotFoundException();
-
-                // get the assembly reference from which we start the update progress
-                // only from this trusted assembly the public key can be used
-                Assembly refassembly = System.Reflection.Assembly.GetEntryAssembly();
-                if (refassembly != null)
-                {
-                    // Check if we found the public key in our entry assembly
-                    if (NetSparkleDSAVerificator.ExistsPublicKey("NetSparkle_DSA.pub"))
-                    {
-                        // check the DSA Code and modify the back color            
-                        NetSparkleDSAVerificator dsaVerifier = new NetSparkleDSAVerificator("NetSparkle_DSA.pub");
-                        bDSAOk = dsaVerifier.VerifyDSASignature(_item.DSASignature, _tempName);
-                    }
-                }
-            }
-
-                if (!bDSAOk)
+            if (!NetSparkleCheckAndInstall.CheckDSA(_sparkle, _item, _tempName))
             {
                 Size = new Size(Size.Width, 137);
                 lblSecurityHint.Visible = true;
                 BackColor = Color.Tomato;
-        }
             }
                
             // Check the unattended mode
@@ -129,53 +93,7 @@ namespace AppLimit.NetSparkle
 
         private void btnInstallAndReLaunch_Click(object sender, EventArgs e)
         {
-            // get the commandline 
-            String cmdLine = Environment.CommandLine;
-            String workingDir = Environment.CurrentDirectory;
-
-            // generate the batch file path
-            String cmd = Environment.ExpandEnvironmentVariables("%temp%\\" + Guid.NewGuid() + ".cmd");
-            String installerCMD;
-
-            // get the file type
-            if (Path.GetExtension(_tempName).ToLower().Equals(".exe"))
-            {
-                // build the command line 
-                installerCMD = _tempName;
-            }
-            else if (Path.GetExtension(_tempName).ToLower().Equals(".msi"))
-            {                
-                // buid the command line
-                installerCMD = "msiexec /i \"" + _tempName + "\"";                
-            }
-            else
-            {
-                MessageBox.Show("Updater not supported, please execute " + _tempName + " manually", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Environment.Exit(-1);
-                return;
-            }
-
-            // generate the batch file                
-            _sparkle.ReportDiagnosticMessage("Generating MSI batch in " + Path.GetFullPath(cmd));
-
-            StreamWriter write = new StreamWriter(cmd);
-            write.WriteLine(installerCMD);
-            write.WriteLine("cd " + workingDir);
-            write.WriteLine(cmdLine);
-            write.Close();
-
-            // report
-            _sparkle.ReportDiagnosticMessage("Going to execute batch: " + cmd);
-
-            // start the installer helper
-            Process process = new Process();
-            process.StartInfo.FileName = cmd;
-            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            process.Start();
-            
-
-            // quit the app
-            Environment.Exit(0);
+            NetSparkleCheckAndInstall.Install(_sparkle, _tempName);
         }
     }
 }
