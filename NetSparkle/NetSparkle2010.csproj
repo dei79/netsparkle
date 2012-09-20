@@ -82,6 +82,7 @@
     <Compile Include="NetSparkleAppCast.cs" />
     <Compile Include="NetSparkleAssemblyAccessor.cs" />
     <Compile Include="NetSparkleAssemblyDiagnosticsAccessor.cs" />
+    <Compile Include="NetSparkleCheckAndInstall.cs" />
     <Compile Include="NetSparkleConfiguration.cs" />
     <Compile Include="NetSparkleDeviceInventory.cs" />
     <Compile Include="NetSparkleDownloadProgress.cs">

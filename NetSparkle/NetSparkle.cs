@@ -12,6 +12,9 @@ using System.Management;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
+using System.IO;
+
+
 
 namespace AppLimit.NetSparkle
 {
@@ -123,6 +126,20 @@ namespace AppLimit.NetSparkle
         public Boolean EnableSilentMode { get; set; }
 
         /// <summary>
+        /// This property enables the service mode, this means 
+        /// the update functionality will synchronous the main thread.
+        /// This will only work in conjunction with an enabled silent mode
+        /// </summary>
+        public Boolean EnableServiceMode { get; set; }
+
+        /// <summary>
+        /// This property contains the service name, which is used
+        /// for a net start command.
+        /// This will only work in conjunction with an enabled service mode
+        /// </summary>
+        public String ServiceName { get; set; }
+
+        /// <summary>
         /// This property returns true when the upadete loop is running
         /// and files when the loop is not running
         /// </summary>
@@ -212,7 +229,7 @@ namespace AppLimit.NetSparkle
         /// </summary>        
         /// <param name="doInitialCheck"></param>
         public void StartLoop(Boolean doInitialCheck)
-        {
+        {            
             StartLoop(doInitialCheck, false);
         }
 
@@ -253,6 +270,11 @@ namespace AppLimit.NetSparkle
         /// <param name="checkFrequency"></param>
         public void StartLoop(Boolean doInitialCheck, Boolean forceInitialCheck, TimeSpan checkFrequency)
         {
+            // if service 
+            // check that we run in unattended mode otherwise throw not supported exception 
+            if ((EnableServiceMode) & (!EnableSilentMode))
+                throw new NotSupportedException();
+
             // first set the event handle
             _loopingHandle.Set();
 
@@ -460,6 +482,9 @@ namespace AppLimit.NetSparkle
             }
         }
 
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        public static extern void OutputDebugString(string message);
+
         /// <summary>
         /// This method reports a message in the diagnostic window
         /// </summary>
@@ -473,6 +498,7 @@ namespace AppLimit.NetSparkle
             else
             {
                 _DiagnosticWindow.Report(message);
+                OutputDebugString(message);
             }
         }
 
@@ -567,7 +593,7 @@ namespace AppLimit.NetSparkle
                         {
                             ReportDiagnosticMessage("Unattended update whished from consumer");
                             EnableSilentMode = true;
-                            _worker.ReportProgress(1, latestVersion);
+                            ReportProgress(1, latestVersion);
                             break;
                         }
                     case nNextUpdateAction.prohibitUpdate:
@@ -579,7 +605,7 @@ namespace AppLimit.NetSparkle
                     default:
                         {
                             ReportDiagnosticMessage("Standard UI update whished from consumer");
-                            _worker.ReportProgress(1, latestVersion);
+                            ReportProgress(1, latestVersion);
                             break;
                         }
                 }                
@@ -633,6 +659,18 @@ namespace AppLimit.NetSparkle
             _loopingHandle.Reset();
         }
 
+        private void ReportProgress(int progress, object userstate)
+        {
+            if (EnableServiceMode)
+            {
+                _worker_ProgressChanged(this, new ProgressChangedEventArgs(progress, userstate));
+            }
+            else
+            {
+                _worker.ReportProgress(progress, userstate);
+            }
+        }
+
         /// <summary>
         /// This method will be notified
         /// </summary>
@@ -665,8 +703,39 @@ namespace AppLimit.NetSparkle
 
         private void InitDownloadAndInstallProcess(NetSparkleAppCastItem item)
         {
-            NetSparkleDownloadProgress dlProgress = new NetSparkleDownloadProgress(this, item, _AppReferenceAssembly, ApplicationIcon, ApplicationWindowIcon, EnableSilentMode);
-            dlProgress.ShowDialog();
+        
+            if (EnableServiceMode)
+            {
+                DownloadAndInstallSync(item);
+            }
+            else
+            {
+                NetSparkleDownloadProgress dlProgress = new NetSparkleDownloadProgress(this, item, _AppReferenceAssembly, ApplicationIcon, ApplicationWindowIcon, EnableSilentMode);
+                dlProgress.ShowDialog();
+            }
+
+           
+        }
+
+        private void DownloadAndInstallSync(NetSparkleAppCastItem item)
+        {
+            // get the filename of the download link
+            String[] segments = item.DownloadLink.Split('/');
+            String fileName = segments[segments.Length - 1];
+
+            // download sync
+            String _tempName = Environment.ExpandEnvironmentVariables("%temp%\\" + fileName);
+
+            // start async download
+            WebClient Client = new WebClient();
+            Uri url = new Uri(item.DownloadLink);
+
+            Client.DownloadFile(url, _tempName);
+
+            if (NetSparkleCheckAndInstall.CheckDSA(this, item, _tempName))
+            { 
+                NetSparkleCheckAndInstall.Install(this, _tempName);
+            }
         }
 
         private void ShowDiagnosticWindowIfNeeded()
