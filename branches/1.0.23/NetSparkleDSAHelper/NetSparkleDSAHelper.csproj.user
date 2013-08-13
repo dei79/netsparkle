@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <StartArguments>/genkey_pair</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <StartArguments>/verify_update NetSparkleDSAHelper.exe NetSparkle_DSA.pub "RqIK3SDSYKk6iLW/woFMX4shIioTarsQQcpTpjShe5V49E/Ao0Ajcg=="</StartArguments>
+  </PropertyGroup>
+</Project>
