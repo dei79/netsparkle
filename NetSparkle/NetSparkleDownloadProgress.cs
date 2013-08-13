@@ -49,9 +49,20 @@ namespace AppLimit.NetSparkle
             Size = new Size(Size.Width, 107);
             lblSecurityHint.Visible = false;                
             
-            // get the filename of the download lin
+            // get the filename of the download link
             String[] segments = item.DownloadLink.Split('/');
             String fileName = segments[segments.Length - 1];
+
+            //trim url parameters
+            if(fileName.LastIndexOf('?') > 0) {
+                fileName = fileName.Substring(0, fileName.LastIndexOf('?'));
+            }
+
+            //if no extension present make msi the default extension
+            if (Path.GetExtension(fileName).Length == 0)
+            {
+                fileName += ".msi";
+            }
 
             // get temp path
             _tempName = Environment.ExpandEnvironmentVariables("%temp%\\" + fileName);
