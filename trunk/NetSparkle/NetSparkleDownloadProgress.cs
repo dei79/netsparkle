@@ -58,6 +58,9 @@ namespace AppLimit.NetSparkle
                 fileName = fileName.Substring(0, fileName.LastIndexOf('?'));
             }
 
+            //sanitize filename
+            fileName = MakeValidFileName(fileName);
+
             //if no extension present make msi the default extension
             if (Path.GetExtension(fileName).Length == 0)
             {
@@ -67,6 +70,12 @@ namespace AppLimit.NetSparkle
             // get temp path
             _tempName = Environment.ExpandEnvironmentVariables("%temp%\\" + fileName);
 
+            //check if file already exists and add counter
+            while(File.Exists(_tempName))
+            {
+                _tempName = Path.GetDirectoryName(_tempName) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(_tempName) + DateTime.Now.ToFileTimeUtc() + Path.GetExtension(_tempName);
+            }
+
             // start async download
             WebClient Client = new WebClient();
             Client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(Client_DownloadProgressChanged);
@@ -75,6 +84,14 @@ namespace AppLimit.NetSparkle
             Uri url = new Uri(item.DownloadLink);
 
             Client.DownloadFileAsync(url, _tempName);
+        }
+
+        //from http://stackoverflow.com/questions/309485/c-sharp-sanitize-file-name
+        private static string MakeValidFileName(string name)
+        {
+            string invalidChars = System.Text.RegularExpressions.Regex.Escape(new string(System.IO.Path.GetInvalidFileNameChars()));
+            string invalidReStr = string.Format(@"([{0}]*\.+$)|([{0}]+)", invalidChars);
+            return System.Text.RegularExpressions.Regex.Replace(name, invalidReStr, "_");
         }
 
         private void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
