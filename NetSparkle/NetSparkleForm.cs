@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Net;
 
 namespace AppLimit.NetSparkle
 {
@@ -27,9 +28,20 @@ namespace AppLimit.NetSparkle
             lblInfoText.Text = lblInfoText.Text.Replace("APP", item.AppName + " " + item.Version);
             lblInfoText.Text = lblInfoText.Text.Replace("OLDVERSION", item.AppVersionInstalled);
 
-            if (item.ReleaseNotesLink != null && item.ReleaseNotesLink.Length > 0 )
+
+            
+            if (item.ReleaseNotesLink != null && item.ReleaseNotesLink.Length > 0)
+            {
                 NetSparkleBrowser.Navigate(item.ReleaseNotesLink);
-            else            
+                
+            }
+            else if (item.Description != null && item.Description.Length > 0)
+            {
+                NetSparkleBrowser.Navigate("about:blank");
+
+                NetSparkleBrowser.DocumentText = item.Description;
+            }
+            else
                 RemoveReleaseNotesControls();            
 
             if (appIcon != null)
