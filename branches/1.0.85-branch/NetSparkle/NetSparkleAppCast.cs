@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Xml;
-using System.Net;
 
 namespace AppLimit.NetSparkle
 {
@@ -16,6 +15,7 @@ namespace AppLimit.NetSparkle
         private const String itemNode = "item";
         private const String enclosureNode = "enclosure";
         private const String releaseNotesLinkNode = "sparkle:releaseNotesLink";
+        private const String descriptionNode = "description"; 
         private const String versionAttribute = "sparkle:version";
         private const String dasSignature = "sparkle:dsaSignature";
         private const String urlAttribute = "url";
@@ -64,6 +64,11 @@ namespace AppLimit.NetSparkle
                                 currentItem.DownloadLink = reader.GetAttribute(urlAttribute);
                                 currentItem.DSASignature = reader.GetAttribute(dasSignature);
 
+                                break;
+                            }
+                        case descriptionNode:
+                            {
+                                currentItem.Description = reader.ReadString();
                                 break;
                             }
                     }
