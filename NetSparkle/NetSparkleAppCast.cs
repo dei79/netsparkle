@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Xml;
+using System.Net;
 
 namespace AppLimit.NetSparkle
 {
