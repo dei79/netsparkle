@@ -14,7 +14,7 @@ This framework contains a lot of features, please check them out:
 * Seamless integration—there's no mention of NetSparkle; your icons and app name are used
 * Supports DSA signatures for ultra-secure updates
 * UpdateChecker-Helper for start menu integration
-* i18n support see localization section
+* i18n support see [localization section](https://github.com/dei79/netsparkle/wiki/Localization)
 
 In the future we are planning to realize all the other well know Sparkle features as well:
 * Optionally sends user demographic information to the server when checking for updates
