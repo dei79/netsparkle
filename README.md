@@ -3,6 +3,8 @@ NetSparkle is an easy-to-use software update framework for .NET developers on Wi
 inspired by the Sparkle (http://bit.ly/HWyJd) project for Cocoa developers and the WinSparkle (http://bit.ly/cj5kP5) 
 project (a Win32 port).
 
+![NetSparkle](https://github.com/dei79/netsparkle/blob/master/Assets/NetSparkle.png)
+
 This framework contains a lot of features, please check them out:
 * True self-updating, no work required from user based on Windows Installer packages
 * Uses appcasts for release information
