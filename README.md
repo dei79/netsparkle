@@ -20,3 +20,5 @@ In the future we are planning to realize all the other well know Sparkle feature
 * Optionally sends user demographic information to the server when checking for updates
 * NetSparkle can install .exe files for wider installer support
 * Support for custom consumer logic when a update was detected
+
+Get more information in the [wiki](https://github.com/dei79/netsparkle/wiki) about this project
