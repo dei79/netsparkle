@@ -1,3 +1,4 @@
+![Logo](https://github.com/dei79/netsparkle/blob/master/Assets/software-update-available.png)
 # netsparkle
 NetSparkle is an easy-to-use software update framework for .NET developers on Windows, MAC or Linux. It was 
 inspired by the Sparkle (http://bit.ly/HWyJd) project for Cocoa developers and the WinSparkle (http://bit.ly/cj5kP5) 
